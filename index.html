@@ -1,0 +1,1176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0B1F3A">
+<meta name="author" content="Developed by NEXARCH, Powered by CYRABELL">
+<title>NEXSHOP · Online Tindahan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F6F4EF; --card:#FFFFFF; --ink:#1B2A44; --ink-2:#5A6B84; --ink-3:#93A2B8;
+  --navy:#0B1F3A; --cyan:#00C2D1; --cyan-deep:#0891A0;
+  --mango:#FFB703; --mango-deep:#E09B00; --coral:#F25C4D; --gold:#F5A623;
+  --ok:#14A36A; --line:#E4E0D6;
+  --disp:'Chakra Petch',sans-serif; --body:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
+  --r:14px; --shadow:0 2px 12px rgba(11,31,58,.09);
+  --sh-premium:#0B6E4F; --sh-special:#7C3AED; --sh-regular:#0B5FA5;
+  --sh-health:#B84A0C; --sh-grocery:#C2273B; --sh-feed:#6B4F1D;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{font-family:var(--body);background:var(--paper);color:var(--ink);font-size:14px;padding-bottom:64px}
+button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
+input,select,textarea{font-family:inherit;font-size:14px;width:100%;border:1.5px solid var(--line);border-radius:10px;padding:11px 13px;background:#fff;color:var(--ink);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,194,209,.15)}
+label{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);margin:12px 0 5px}
+h1,h2,h3{font-family:var(--disp)}
+::-webkit-scrollbar{width:8px;height:8px}::-webkit-scrollbar-thumb{background:#CFC9BB;border-radius:6px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ── views ── */
+.view{display:none;min-height:calc(100vh - 64px)}
+.view.on{display:block}
+.wrap{max-width:1080px;margin:0 auto;padding:0 14px}
+
+/* ── top bar ── */
+#top{position:sticky;top:0;z-index:40;background:var(--navy);padding:10px 14px;display:flex;align-items:center;gap:10px}
+#top .hex{width:30px;height:34px;flex:none;background:var(--cyan);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);display:grid;place-items:center;font-family:var(--disp);font-weight:700;font-size:15px;color:var(--navy)}
+#top b{font-family:var(--disp);font-size:17px;letter-spacing:.09em;color:#fff;white-space:nowrap}
+#top b i{font-style:normal;color:var(--mango)}
+#q{flex:1;border:none;border-radius:99px;padding:9px 15px;font-size:13.5px;background:rgba(255,255,255,.94)}
+.topbtn{position:relative;width:36px;height:36px;display:grid;place-items:center;color:#C6D4E8;font-size:19px}
+.badge{position:absolute;top:1px;right:0;min-width:16px;height:16px;border-radius:99px;background:var(--coral);color:#fff;font-size:9.5px;font-weight:700;display:grid;place-items:center;padding:0 4px}
+
+/* ── hero + ads ── */
+#hero{background:linear-gradient(135deg,var(--navy) 0%,#12345E 70%,#0B6E77 100%);color:#fff;padding:20px 18px 22px;position:relative;overflow:hidden}
+#hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 1.5px 1.5px,rgba(255,255,255,.14) 1.5px,transparent 0);background-size:22px 22px;pointer-events:none}
+#hero .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
+#hero h1{font-size:clamp(19px,4.5vw,26px);line-height:1.15}
+#hero h1 em{font-style:normal;color:var(--mango)}
+#adband{position:relative;margin:12px 14px 4px;max-width:1052px}
+@media(min-width:1080px){#adband{margin:12px auto 4px}}
+#adtrack{display:flex;overflow:hidden;border-radius:14px;box-shadow:var(--shadow)}
+.ad{min-width:100%;padding:16px 18px;color:#fff;position:relative;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;justify-content:center;min-height:88px}
+.ad::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 1.5px 1.5px,rgba(255,255,255,.16) 1.5px,transparent 0);background-size:20px 20px}
+.ad .promo{font-family:var(--mono);font-size:9px;letter-spacing:.24em;text-transform:uppercase;opacity:.85;position:relative}
+.ad b{font-family:var(--disp);font-size:clamp(15px,2.3vw,20px);display:block;margin:3px 0 2px;position:relative}
+.ad small{font-size:12px;opacity:.92;position:relative;max-width:520px;line-height:1.4}
+#addots{display:flex;gap:6px;justify-content:center;margin-top:7px}
+#addots i{width:6px;height:6px;border-radius:50%;background:#CFC9BB;cursor:pointer;transition:.2s}
+#addots i.on{background:var(--navy);transform:scale(1.3)}
+
+/* ── flash sale strip ── */
+#flash{margin:14px 14px 2px;max-width:1052px;background:linear-gradient(120deg,#8F1D2C,#C2273B 60%,#E0532B);border-radius:14px;padding:13px 14px 15px;color:#fff;box-shadow:var(--shadow);position:relative;overflow:hidden}
+@media(min-width:1080px){#flash{margin:14px auto 2px}}
+#flash::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 1.5px 1.5px,rgba(255,255,255,.13) 1.5px,transparent 0);background-size:18px 18px}
+#flash .fhead{display:flex;align-items:center;gap:10px;position:relative;margin-bottom:10px}
+#flash .fhead b{font-family:var(--disp);font-size:16px;letter-spacing:.06em}
+#flash .clock{display:flex;gap:4px;align-items:center;font-family:var(--mono);font-size:11px}
+#flash .clock span{background:#0B1F3A;border-radius:6px;padding:3px 6px;font-weight:600;min-width:26px;text-align:center}
+#flash .spacer{flex:1}
+#flash .seeall{font-size:11.5px;font-weight:600;opacity:.9;position:relative}
+#ftrack{display:flex;gap:9px;overflow-x:auto;position:relative;scrollbar-width:none;padding-bottom:2px}
+#ftrack::-webkit-scrollbar{display:none}
+.fcard{min-width:118px;width:118px;background:#fff;border-radius:11px;overflow:hidden;color:var(--ink);text-align:left;flex:none}
+.fcard .fi{aspect-ratio:1;position:relative;display:grid;place-items:center;overflow:hidden}
+.fcard .fi img{width:100%;height:100%;object-fit:cover}
+.fcard .off{position:absolute;top:0;right:0;background:var(--mango);color:#5A3A00;font-family:var(--mono);font-size:9.5px;font-weight:700;padding:3px 6px;border-radius:0 0 0 9px}
+.fcard .fb{padding:7px 8px 9px}
+.fcard .fp{font-family:var(--disp);font-weight:700;font-size:14.5px;color:#C2273B}
+.fcard .fo{font-size:10px;color:var(--ink-3);text-decoration:line-through}
+.fcard .fbar{height:11px;border-radius:99px;background:#FBE0CE;margin-top:5px;position:relative;overflow:hidden}
+.fcard .fbar i{position:absolute;inset:0;width:60%;background:linear-gradient(90deg,#F5A623,#E0532B);border-radius:99px}
+.fcard .fbar span{position:absolute;inset:0;display:grid;place-items:center;font-size:8px;font-weight:700;color:#7A3010}
+
+/* ── category quick icons ── */
+#quickcats{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin:14px 14px 4px;max-width:1052px}
+@media(min-width:1080px){#quickcats{margin:14px auto 4px}}
+#quickcats button{display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 2px;border-radius:12px;background:#fff;box-shadow:var(--shadow)}
+#quickcats .qi{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;font-family:var(--disp);font-weight:700;font-size:14px;color:#fff}
+#quickcats small{font-size:10px;font-weight:600;color:var(--ink-2)}
+
+/* ── sort/filter bar ── */
+#sortbar{display:flex;gap:7px;overflow-x:auto;padding:12px 14px 8px;max-width:1080px;margin:0 auto;scrollbar-width:none}
+#sortbar::-webkit-scrollbar{display:none}
+#sortbar button{white-space:nowrap;font-size:12px;font-weight:600;padding:7px 13px;border-radius:99px;background:#fff;border:1.5px solid var(--line);color:var(--ink-2)}
+#sortbar button.on{background:var(--navy);border-color:var(--navy);color:var(--mango)}
+
+/* ── product grid ── */
+.sechead{display:flex;align-items:baseline;justify-content:space-between;margin:8px 2px 12px}
+.sechead h2{font-size:16px;letter-spacing:.04em;color:var(--navy)}
+.sechead small{font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
+#grid,#wishGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:560px){#grid,#wishGrid{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:860px){#grid,#wishGrid{grid-template-columns:repeat(4,1fr)}}
+.prod{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);text-align:left;display:flex;flex-direction:column;position:relative;transition:transform .12s}
+.prod:active{transform:scale(.975)}
+.prod .img{aspect-ratio:1;position:relative;display:grid;place-items:center;overflow:hidden}
+.prod .img img{width:100%;height:100%;object-fit:cover}
+.prod .kg{position:absolute;top:8px;left:8px;background:rgba(11,31,58,.82);color:#fff;font-family:var(--mono);font-size:10px;padding:3px 8px;border-radius:6px}
+.prod .off{position:absolute;top:0;right:0;background:var(--mango);color:#5A3A00;font-family:var(--mono);font-size:10px;font-weight:700;padding:3px 7px;border-radius:0 0 0 10px}
+.heart{position:absolute;bottom:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;font-size:15px;box-shadow:0 1px 5px rgba(0,0,0,.15);z-index:2}
+.heart.on{color:var(--coral)}
+.prod .info{padding:10px 11px 12px;flex:1;display:flex;flex-direction:column}
+.prod .nm{font-weight:600;font-size:12.5px;line-height:1.3;min-height:33px}
+.prod .pr{font-family:var(--disp);font-weight:700;font-size:17.5px;color:var(--navy);margin-top:5px}
+.prod .pr .was{font-family:var(--body);font-weight:500;font-size:10.5px;color:var(--ink-3);text-decoration:line-through;margin-left:5px}
+.stars{color:var(--gold);font-size:10.5px;letter-spacing:1px}
+.prod .meta{display:flex;justify-content:space-between;align-items:center;margin-top:4px;font-size:10px;color:var(--ink-3)}
+.prod .shelf{height:7px;width:100%;margin-top:auto;background:var(--sh-regular);box-shadow:inset 0 2px 3px rgba(0,0,0,.22)}
+.prod.out{opacity:.55}
+.prod .oos{position:absolute;inset:0;display:grid;place-items:center;background:rgba(246,244,239,.55);font-family:var(--disp);font-weight:700;color:var(--coral);letter-spacing:.1em;font-size:13px;z-index:1}
+.adtile{border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);color:#fff;padding:16px 14px;display:flex;flex-direction:column;justify-content:flex-end;min-height:100%;position:relative;cursor:pointer;text-align:left}
+.adtile::before{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 1.5px 1.5px,rgba(255,255,255,.15) 1.5px,transparent 0);background-size:18px 18px}
+.adtile .promo{font-family:var(--mono);font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;opacity:.8;position:relative}
+.adtile b{font-family:var(--disp);font-size:14.5px;line-height:1.25;display:block;margin:4px 0;position:relative}
+.adtile small{font-size:10.5px;opacity:.9;line-height:1.4;position:relative}
+.empty{grid-column:1/-1;text-align:center;color:var(--ink-3);padding:44px 10px}
+.empty b{display:block;font-family:var(--disp);color:var(--ink-2);font-size:15px;margin-bottom:6px}
+
+/* ── bottom nav ── */
+#nav{position:fixed;left:0;right:0;bottom:0;z-index:50;background:#fff;border-top:1.5px solid var(--line);display:flex;padding:5px 2px calc(5px + env(safe-area-inset-bottom))}
+#nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 0;color:var(--ink-3);font-size:9.5px;font-weight:600;position:relative}
+#nav button svg{width:21px;height:21px}
+#nav button.on{color:var(--cyan-deep)}
+#nav .nbadge{position:absolute;top:0;left:calc(50% + 4px);min-width:15px;height:15px;border-radius:99px;background:var(--coral);color:#fff;font-size:9px;font-weight:700;display:grid;place-items:center;padding:0 3px}
+
+/* ── sheets ── */
+.veil{position:fixed;inset:0;z-index:60;background:rgba(11,31,58,.55);display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
+.veil.on{display:flex}
+.sheet{width:100%;max-width:560px;max-height:90vh;overflow-y:auto;background:var(--paper);border-radius:20px 20px 0 0;padding:18px 18px calc(24px + env(safe-area-inset-bottom));animation:up .24s cubic-bezier(.2,.9,.3,1)}
+@keyframes up{from{transform:translateY(36px);opacity:0}to{transform:none;opacity:1}}
+@media(min-width:640px){.veil{align-items:center}.sheet{border-radius:20px;max-height:86vh}}
+.sheet h3{font-size:17px;color:var(--navy);margin-bottom:4px}
+.grab{width:40px;height:4px;border-radius:99px;background:#D8D2C4;margin:0 auto 14px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:14px;padding:12px 18px;border-radius:11px}
+.btn:active{transform:translateY(1px)}
+.btn.mango{background:var(--mango);color:#3A2A00;width:100%}
+.btn.navy{background:var(--navy);color:var(--cyan);width:100%}
+.btn.coral{background:var(--coral);color:#fff;width:100%}
+.btn.ghost{border:1.5px solid var(--line);color:var(--ink-2);background:#fff}
+.btn.sm{padding:8px 13px;font-size:12.5px;font-weight:600}
+.pill{display:inline-block;font-family:var(--mono);font-size:10px;padding:3px 9px;border-radius:99px;background:#EAF7F8;color:var(--cyan-deep);margin:0 5px 4px 0}
+.note{font-size:11.5px;color:var(--ink-3);line-height:1.5;margin-top:8px}
+
+/* product detail */
+#pd .big{border-radius:14px;overflow:hidden;aspect-ratio:16/10;display:grid;place-items:center;position:relative}
+#pd .big img{width:100%;height:100%;object-fit:cover}
+#pd .prow{display:flex;align-items:baseline;gap:10px;margin:12px 0 2px;flex-wrap:wrap}
+#pd .prow .p{font-family:var(--disp);font-weight:700;font-size:27px;color:#C2273B}
+#pd .prow .was{font-size:13px;color:var(--ink-3);text-decoration:line-through}
+.varrow{display:flex;gap:7px;flex-wrap:wrap;margin:8px 0 2px}
+.varrow button{font-size:12px;font-weight:600;padding:8px 13px;border-radius:9px;border:1.5px solid var(--line);background:#fff;color:var(--ink-2)}
+.varrow button.on{border-color:var(--cyan);color:var(--cyan-deep);background:#EAF7F8}
+#pd .qty{display:flex;align-items:center;gap:14px;margin:12px 0}
+#pd .qty button{width:38px;height:38px;border-radius:10px;border:1.5px solid var(--line);background:#fff;font-size:18px;font-weight:700}
+#pd .qty b{font-family:var(--disp);font-size:19px;min-width:34px;text-align:center}
+.dual{display:flex;gap:9px}
+.review{background:#fff;border-radius:11px;padding:11px 12px;margin-bottom:8px;box-shadow:var(--shadow)}
+.review .rh{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.review .rh b{font-size:12.5px}
+.review p{font-size:12.5px;color:var(--ink-2);line-height:1.5}
+.simrow{display:flex;gap:9px;overflow-x:auto;scrollbar-width:none;padding:4px 0}
+.simrow::-webkit-scrollbar{display:none}
+.simrow .fcard{box-shadow:var(--shadow)}
+
+/* cart */
+.cline{display:flex;gap:11px;background:#fff;border-radius:12px;padding:10px;margin-bottom:9px;box-shadow:var(--shadow);align-items:center}
+.cline .ck{width:20px;height:20px;flex:none;accent-color:var(--cyan-deep)}
+.cline .th{width:54px;height:54px;border-radius:9px;overflow:hidden;flex:none;display:grid;place-items:center}
+.cline .th img{width:100%;height:100%;object-fit:cover}
+.cline .g{flex:1;min-width:0}
+.cline .g b{display:block;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cline .g .p{font-family:var(--disp);font-weight:700;color:#C2273B;font-size:14px;margin-top:2px}
+.cline .q{display:flex;align-items:center;gap:8px}
+.cline .q button{width:26px;height:26px;border-radius:7px;border:1.5px solid var(--line);background:#fff;font-weight:700}
+.tot{display:flex;justify-content:space-between;padding:5px 2px;font-size:13px;color:var(--ink-2)}
+.tot b{color:var(--ink)}
+.tot .disc{color:var(--ok)}
+.tot.grand{font-family:var(--disp);font-weight:700;font-size:19px;color:var(--navy);border-top:1.5px dashed var(--line);padding-top:10px;margin-top:6px}
+.vcard{display:flex;gap:0;border-radius:12px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:9px;background:#fff}
+.vcard .vl{width:86px;flex:none;background:linear-gradient(150deg,var(--coral),#B01E30);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px 4px;text-align:center}
+.vcard .vl b{font-family:var(--disp);font-size:16px}
+.vcard .vl small{font-size:8.5px;letter-spacing:.06em;text-transform:uppercase;opacity:.9}
+.vcard .vr{flex:1;padding:10px 12px}
+.vcard .vr b{font-size:12.5px;display:block}
+.vcard .vr small{font-size:10.5px;color:var(--ink-3)}
+.vcard .vbtn{align-self:center;margin-right:10px}
+
+/* checkout / steps / pay */
+.steps{display:flex;margin:8px 0 16px}
+.steps span{flex:1;text-align:center;font-family:var(--mono);font-size:10px;letter-spacing:.06em;color:var(--ink-3);padding-bottom:8px;border-bottom:2.5px solid var(--line)}
+.steps span.on{color:var(--cyan-deep);border-color:var(--cyan)}
+.payopt{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid var(--line);border-radius:12px;padding:13px;margin-bottom:9px;cursor:pointer}
+.payopt.on{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,194,209,.12)}
+.payopt .ic{width:42px;height:42px;border-radius:10px;display:grid;place-items:center;font-family:var(--disp);font-weight:700;font-size:11px;color:#fff;flex:none}
+.payopt .g b{display:block;font-size:13.5px}
+.payopt .g small{color:var(--ink-3);font-size:11px;line-height:1.35;display:block}
+.qrbox{background:#fff;border-radius:14px;padding:16px;text-align:center;margin:12px 0;box-shadow:var(--shadow)}
+.qrbox canvas{image-rendering:pixelated;border-radius:8px}
+.orderno{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--navy);letter-spacing:.05em;background:#fff;border:2px dashed var(--cyan);border-radius:12px;padding:14px;text-align:center;margin:14px 0}
+
+/* orders view */
+.ocard{background:#fff;border-radius:13px;padding:13px;margin-bottom:11px;box-shadow:var(--shadow)}
+.ocard .oh{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.ocard .oh b{font-family:var(--mono);font-size:12.5px}
+.stag{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:99px}
+.st-placed{background:#FDF3D7;color:#8A6400}.st-confirmed,.st-preparing{background:#E3EFFA;color:#0B5FA5}
+.st-out{background:#EAF7F8;color:var(--cyan-deep)}.st-delivered{background:#E2F5EC;color:#0B6E4F}.st-cancelled{background:#FBE5E8;color:#B01E30}
+.ocard p{font-size:12px;color:var(--ink-2);line-height:1.5}
+.ocard .oact{display:flex;gap:8px;margin-top:9px;flex-wrap:wrap}
+.tl{border-left:2.5px solid var(--line);margin:14px 0 4px 8px;padding-left:16px}
+.tl .ev{position:relative;padding-bottom:16px}
+.tl .ev::before{content:"";position:absolute;left:-23px;top:3px;width:11px;height:11px;border-radius:50%;background:var(--line);border:2.5px solid var(--paper)}
+.tl .ev.done::before{background:var(--ok)}
+.tl .ev.now::before{background:var(--cyan);box-shadow:0 0 0 4px rgba(0,194,209,.2)}
+.tl .ev b{font-size:13px;display:block}
+.tl .ev small{font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
+
+/* account */
+.acc-head{background:linear-gradient(135deg,var(--navy),#12345E);color:#fff;padding:22px 18px;display:flex;align-items:center;gap:14px}
+.acc-head .av{width:52px;height:52px;border-radius:50%;background:var(--mango);color:#3A2A00;display:grid;place-items:center;font-family:var(--disp);font-weight:700;font-size:20px;flex:none}
+.acc-head b{font-size:16px;font-family:var(--disp)}
+.acc-head small{color:#B9C9E0;font-size:12px;display:block}
+.coinbar{display:flex;gap:10px;margin:14px 0}
+.coinbar>div{flex:1;background:#fff;border-radius:13px;padding:13px;text-align:center;box-shadow:var(--shadow)}
+.coinbar b{font-family:var(--disp);font-size:20px;color:var(--navy);display:block}
+.coinbar small{font-size:10px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
+.checkin{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:10px}
+.checkin div{aspect-ratio:1;border-radius:10px;background:#fff;box-shadow:var(--shadow);display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:var(--ink-3)}
+.checkin div b{font-size:12px;color:var(--gold)}
+.checkin div.got{background:#FDF3D7}
+.checkin div.today{outline:2px solid var(--mango)}
+.mrow{display:flex;align-items:center;gap:12px;background:#fff;border-radius:12px;padding:13px;margin-bottom:8px;box-shadow:var(--shadow);width:100%;text-align:left}
+.mrow .mi{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:17px;flex:none;background:#EAF7F8}
+.mrow b{font-size:13px;display:block}
+.mrow small{font-size:11px;color:var(--ink-3)}
+.mrow .go{margin-left:auto;color:var(--ink-3)}
+
+#toast{position:fixed;left:50%;bottom:78px;transform:translate(-50%,16px);z-index:99;opacity:0;pointer-events:none;background:var(--navy);color:#fff;padding:11px 18px;border-radius:99px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.3);transition:.22s;border-left:3px solid var(--mango);max-width:88vw;text-align:center}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+footer{background:var(--navy);color:#7E93B4;text-align:center;padding:24px 16px;font-size:11px;line-height:1.7;margin-top:30px}
+footer b{color:var(--cyan)}
+</style>
+</head>
+<body>
+<header id="top">
+  <div class="hex">N</div><b>NEX<i>SHOP</i></b>
+  <input id="q" placeholder="Search bigas, groceries…" autocomplete="off">
+  <button class="topbtn" onclick="setView('wish')">♡<span class="badge" id="wishN" hidden></span></button>
+  <button class="topbtn" onclick="setView('cart')">🛒<span class="badge" id="cartN" hidden></span></button>
+</header>
+
+<!-- ═══ HOME ═══ -->
+<div class="view on" id="v-home">
+  <section id="hero">
+    <div class="eyebrow">Online Tindahan · Iligan City</div>
+    <h1>Fresh rice &amp; staples, <em>delivered to your door</em></h1>
+  </section>
+  <div id="adband" hidden><div id="adtrack"></div><div id="addots"></div></div>
+
+  <div id="flash" hidden>
+    <div class="fhead">⚡ <b>FLASH SALE</b>
+      <div class="clock"><span id="fh">00</span>:<span id="fm">00</span>:<span id="fs">00</span></div>
+      <div class="spacer"></div><button class="seeall" onclick="sortSale()">See all ›</button>
+    </div>
+    <div id="ftrack"></div>
+  </div>
+
+  <div id="quickcats"></div>
+
+  <div id="sortbar"></div>
+  <main class="wrap">
+    <div class="sechead"><h2 id="gridTitle">For you</h2><small id="gridCount"></small></div>
+    <div id="grid"></div>
+  </main>
+  <footer><b>NEXSHOP</b> · the online front of your neighborhood tindahan<br>
+  Developed by NEXARCH · Powered by CYRABELL · Precision. Scale. Control.</footer>
+</div>
+
+<!-- ═══ CATEGORIES ═══ -->
+<div class="view" id="v-cats">
+  <div class="wrap" style="padding-top:16px">
+    <div class="sechead"><h2>Categories</h2></div>
+    <div id="catList"></div>
+  </div>
+</div>
+
+<!-- ═══ WISHLIST ═══ -->
+<div class="view" id="v-wish">
+  <div class="wrap" style="padding-top:16px">
+    <div class="sechead"><h2>My wishlist</h2><small id="wishCount"></small></div>
+    <div id="wishGrid"></div>
+  </div>
+</div>
+
+<!-- ═══ CART ═══ -->
+<div class="view" id="v-cart">
+  <div class="wrap" style="padding-top:16px;padding-bottom:20px">
+    <div class="sechead"><h2>My cart</h2><button class="btn sm ghost" onclick="cartSelectAll()">Select all</button></div>
+    <div id="cartList"></div>
+    <div id="cartFoot"></div>
+  </div>
+</div>
+
+<!-- ═══ ORDERS ═══ -->
+<div class="view" id="v-orders">
+  <div class="wrap" style="padding-top:16px">
+    <div class="sechead"><h2>My orders</h2><button class="btn sm ghost" onclick="refreshOrders()">↻ Refresh</button></div>
+    <div id="orderList"></div>
+  </div>
+</div>
+
+<!-- ═══ ACCOUNT ═══ -->
+<div class="view" id="v-acct">
+  <div class="acc-head">
+    <div class="av" id="accAv">?</div>
+    <div><b id="accName">Guest ka pa</b><small id="accSub">Set up your delivery details</small></div>
+    <button class="btn sm ghost" style="margin-left:auto;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.25);color:#fff" onclick="editProfile()">Edit</button>
+  </div>
+  <div class="wrap" style="padding-top:14px;padding-bottom:24px">
+    <div class="coinbar">
+      <div><b id="accCoins">0</b><small>Rice Coins</small></div>
+      <div><b id="accVouchers">0</b><small>Vouchers</small></div>
+      <div><b id="accOrders">0</b><small>Orders</small></div>
+    </div>
+    <div class="sechead" style="margin-top:6px"><h2 style="font-size:14px">Daily check-in · +5 coins</h2><small id="streakLbl"></small></div>
+    <div class="checkin" id="checkinRow"></div>
+    <button class="btn mango" id="checkinBtn" style="margin-top:10px" onclick="doCheckin()">Check in today</button>
+
+    <div class="sechead" style="margin-top:22px"><h2 style="font-size:14px">Recently viewed</h2></div>
+    <div class="simrow" id="recentRow"></div>
+
+    <div style="margin-top:18px">
+      <button class="mrow" onclick="openVouchers()"><div class="mi">🎟️</div><div><b>My vouchers</b><small>Collect and use at checkout</small></div><span class="go">›</span></button>
+      <button class="mrow" onclick="setView('orders')"><div class="mi">📦</div><div><b>My orders</b><small>Track, cancel, buy again, review</small></div><span class="go">›</span></button>
+      <button class="mrow" onclick="chatStore()"><div class="mi">💬</div><div><b>Chat with the store</b><small>Questions about stock, delivery, wholesale</small></div><span class="go">›</span></button>
+      <button class="mrow" onclick="trackSheet()"><div class="mi">🔎</div><div><b>Track any order</b><small>By order number and phone</small></div><span class="go">›</span></button>
+      <button class="mrow" onclick="aboutSheet()"><div class="mi">ℹ️</div><div><b>About NEXSHOP</b><small>Payments, delivery areas, data</small></div><span class="go">›</span></button>
+    </div>
+  </div>
+</div>
+
+<nav id="nav">
+  <button class="on" data-v="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V21H3z"/><path d="M9 21v-6h6v6"/></svg>Home</button>
+  <button data-v="cats"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/></svg>Categories</button>
+  <button data-v="cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13 5.4 5M7 13l-2 5h13"/><circle cx="9" cy="20" r="1.4"/><circle cx="18" cy="20" r="1.4"/></svg>Cart<span class="nbadge" id="navCartN" hidden></span></button>
+  <button data-v="orders"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/></svg>Orders</button>
+  <button data-v="acct"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20a7.5 7.5 0 0 1 15 0"/></svg>Account</button>
+</nav>
+
+<div class="veil" id="veil"><div class="sheet" id="sheetBox"><div class="grab"></div><div id="sheetBody"></div></div></div>
+<div id="toast"></div>
+
+<script>
+'use strict';
+/* ════════════════════════════════════════════════════════════════
+   NEXSHOP v2 — Lazada-class shopping on the NEXRICE backend
+   Developed by NEXARCH · Powered by CYRABELL
+   ════════════════════════════════════════════════════════════════ */
+const SHOP = {
+  name: 'NEXSHOP',
+  // BACKEND = NEXRICE. Paste NEXRICE's Apps Script /exec URL and the SHOP_KEY
+  // from its Config sheet. The key can only read catalog/ads/vouchers and
+  // place, track, cancel or review orders — no admin access whatsoever.
+  api_url: '', shop_key: '',
+  currency: '₱', delivery_fee: 49, sameday_fee: 99, free_over: 1500,
+  areas: ['Buru-un','Poblacion','Tibanga','Pala-o','Ma. Cristina','Suarez','Tubod','Other (Iligan)'],
+  gcash: {name:'NEXRICE Store', number:'0905 251 5051'},
+  maya:  {name:'NEXRICE Store', number:'0905 251 5051'},
+  coins: {earnPer:100, value:0.10, capPct:20}    // 1 coin / ₱100 spent · 1 coin = ₱0.10 · max 20% of subtotal
+};
+SHOP.ads=[
+  {id:'a1',slot:'banner',color:'#0B6E4F',title:'Free delivery over \u20b11,500',text:'Stock the pantry once \u2014 the tricycle ride is on us.',link:''},
+  {id:'a2',slot:'banner',color:'#7C3AED',title:'Bagong giling!',text:'This week\u2019s Dinorado milled fresh \u2014 oldest lot first, always.',link:'#Premium'},
+  {id:'a3',slot:'banner',color:'#B84A0C',title:'Brown & red rice back in stock',text:'The healthy shelf is full again \u2014 limited sacks.',link:'#Health'},
+  {id:'a4',slot:'grid',color:'#0666EB',title:'GCash & Maya accepted',text:'Pay from your phone \u2014 confirmed once the reference checks out.',link:''},
+  {id:'a5',slot:'grid',color:'#C2273B',title:'Suki deal: 3 sacks, save more',text:'Chat the store for wholesale pricing on 3+ sacks.',link:''}
+];
+SHOP.vouchers=[
+  {code:'WELCOME50', kind:'fixed',  value:50,  min:500,  cap:0,   label:'\u20b150 OFF', desc:'\u20b150 off your first order \u00b7 min \u20b1500'},
+  {code:'RICE5',     kind:'pct',    value:5,   min:1000, cap:150, label:'5% OFF',       desc:'5% off \u00b7 min \u20b11,000 \u00b7 up to \u20b1150'},
+  {code:'FREESHIP',  kind:'ship',   value:0,   min:800,  cap:0,   label:'FREE SHIP',    desc:'Free standard delivery \u00b7 min \u20b1800'}
+];
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const P=n=>SHOP.currency+Number(n||0).toLocaleString('en-PH',{minimumFractionDigits:2,maximumFractionDigits:2});
+const Pk=n=>SHOP.currency+Math.round(Number(n||0)).toLocaleString('en-PH');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Date.now().toString(36).toUpperCase()+Math.random().toString(36).slice(2,6).toUpperCase();
+const LS=(k,v)=>v===undefined?JSON.parse(localStorage.getItem('nexshop.'+k)||'null'):localStorage.setItem('nexshop.'+k,JSON.stringify(v));
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._x);t._x=setTimeout(()=>t.classList.remove('on'),2400)}
+function sheet(html){$('#sheetBody').innerHTML=html;$('#veil').classList.add('on')}
+function closeSheet(){$('#veil').classList.remove('on')}
+$('#veil').addEventListener('click',e=>{if(e.target.id==='veil')closeSheet()});
+
+/* ── banig placeholder art ── */
+const SHELF={Premium:'--sh-premium',Special:'--sh-special',Regular:'--sh-regular',Health:'--sh-health',Grocery:'--sh-grocery',Feed:'--sh-feed'};
+const WEAVE={Premium:['#0B6E4F','#DFF3EA'],Special:['#7C3AED','#EFE8FD'],Regular:['#0B5FA5','#E3EFFA'],Health:['#B84A0C','#FBEADF'],Grocery:['#C2273B','#FBE5E8'],Feed:['#6B4F1D','#F2ECDF']};
+function banig(cat,name,size){
+  const [a,b]=WEAVE[cat]||WEAVE.Regular;
+  const c=document.createElement('canvas');c.width=c.height=size||160;
+  const x=c.getContext('2d');x.fillStyle=b;x.fillRect(0,0,c.width,c.height);
+  const s=c.width/8;
+  for(let r=0;r<8;r++)for(let col=0;col<8;col++){if((r+col)%2)continue;
+    x.fillStyle=a+((r*7+col*13)%3?'CC':'88');x.beginPath();x.roundRect(col*s+2,r*s+2,s-4,s-4,4);x.fill()}
+  x.fillStyle='#fff';x.beginPath();x.arc(c.width/2,c.height/2,c.width/4.4,0,7);x.fill();
+  x.fillStyle=a;x.font='700 '+(c.width/7)+'px Chakra Petch';x.textAlign='center';x.textBaseline='middle';
+  x.fillText((name||'?').split(' ').slice(0,2).map(w=>w[0]).join(''),c.width/2,c.height/2+2);
+  return c.toDataURL();
+}
+const imgFor=(p,size)=>p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy">`:`<img src="${banig(p.category,p.name,size)}" alt="${esc(p.name)}">`;
+const stars=r=>{const f=Math.round(r||0);return '★'.repeat(f)+'☆'.repeat(5-f)};
+
+/* ── Demo catalog: sale flags, ratings, variants ── */
+const DEMO=[
+ // name, cat, price, kg, unit, stock, sold, salePct, rating, nRatings, variantGroup
+ ['Sinandomeng Premium 50kg','Premium',2750,50,'sack',180,880,0,4.8,214,'sinan'],
+ ['Sinandomeng 25kg','Premium',1440,25,'sack',64,690,0,4.8,146,'sinan'],
+ ['Sinandomeng 5kg Pouch','Premium',330,5,'pouch',150,2130,12,4.9,505,'sinan'],
+ ['Dinorado 50kg','Premium',3050,50,'sack',96,412,8,4.7,98,''],
+ ['Jasmine Thai 50kg','Special',3400,50,'sack',54,208,0,4.9,71,''],
+ ['Angelica 50kg','Premium',2680,50,'sack',120,530,0,4.6,120,''],
+ ['Well-Milled Rice 50kg','Regular',2050,50,'sack',240,1204,5,4.5,301,''],
+ ['Brown Rice 5kg','Health',360,5,'pouch',36,340,15,4.7,88,''],
+ ['Red Rice 2kg','Health',190,2,'pouch',18,122,0,4.8,34,''],
+ ['Malagkit 5kg','Special',400,5,'pouch',28,96,0,4.6,22,''],
+ ['Cooking Oil 1L','Grocery',95,1,'bottle',80,1510,10,4.4,412,''],
+ ['Iodized Salt 1kg','Grocery',22,1,'pack',120,940,0,4.5,180,''],
+ ['White Sugar 1kg','Grocery',78,1,'pack',95,1120,0,4.3,260,''],
+ ['Instant Coffee Twin Pack','Grocery',10,0.05,'pack',300,3800,20,4.6,930,''],
+ ['Soy Sauce 1L','Grocery',58,1,'bottle',66,720,0,4.4,151,''],
+ ['Vinegar 1L','Grocery',48,1,'bottle',70,650,0,4.5,140,'']
+].map((d,i)=>({id:'D'+(i+1),sku:'D'+(i+1),name:d[0],category:d[1],price:d[2],kg:d[3],unit:d[4],
+  stock:d[5],sold:d[6],sale_pct:d[7],rating:d[8],ratings:d[9],vgroup:d[10],image_url:'',active:true}));
+const DEMO_REVIEWS={
+ D1:[['Maria S.',5,'Mabango at malambot. Suki na kami dito.'],['Jun P.',5,'Delivered same day sa Buru-un. Solid.'],['Karen D.',4,'Maganda quality, sana may 10kg din.']],
+ D3:[['Aling Nena',5,'Perfect for the sari-sari store, mabilis maubos.']],
+ D7:[['Boy T.',4,'Sulit sa presyo. Standard well-milled.'],['Liza M.',5,'Fresh giling talaga.']],
+ D11:[['Cita R.',4,'Legit brand, mura pa.']]
+};
+
+/* ── State ── */
+let CAT=[],CUR='All',Q='',SORT='pop',LIVE=false,ADS=SHOP.ads,VOUCHERS=SHOP.vouchers,REVIEWS=DEMO_REVIEWS;
+let CART=LS('cart')||[]; CART.forEach(l=>{if(l.sel===undefined)l.sel=true});
+let WISH=LS('wish')||[];
+let COINS=LS('coins')||{bal:0,streak:0,last:''};
+let MYVOUCH=LS('myvouch')||[];
+let CK=LS('cust')||{};
+let PAY=LS('paym')||'cod', SHIPMODE='standard', USEDVOUCH=null, USECOINS=false;
+const saveCart=()=>LS('cart',CART);
+const price=p=>p.sale_pct?Math.round(p.price*(100-p.sale_pct))/100:p.price;
+const saleEnds=()=>{const d=new Date();d.setHours(24,0,0,0);return d};   // midnight flash reset
+
+/* ── Backend (NEXRICE) ── */
+async function api(params,post){
+  const base=SHOP.api_url;
+  if(post){
+    const r=await fetch(base,{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:new URLSearchParams({action:params.action,key:SHOP.shop_key,...(params.raw||{}),...(params.payload!==undefined?{payload:JSON.stringify(params.payload)}:{})})});
+    return r.json();
+  }
+  const r=await fetch(base+'?'+new URLSearchParams({...params,key:SHOP.shop_key}));return r.json();
+}
+async function loadCatalog(){
+  if(SHOP.api_url){
+    try{
+      const j=await api({action:'shop_catalog'});
+      if(j.ok&&j.products){
+        CAT=j.products.map(p=>({...p,image_url:p.image_url||p.img||'',price:+p.price,stock:+p.stock,
+          sold:+(p.sold||0),kg:+(p.kg||0)||'',sale_pct:+(p.sale_pct||0),rating:+(p.rating||0)||4.6,
+          ratings:+(p.ratings||0),vgroup:p.vgroup||''}));
+        LIVE=true;return}
+    }catch(e){}
+    toast('Store link unreachable — showing sample catalog');
+  }
+  CAT=DEMO;
+}
+async function loadAds(){ if(!SHOP.api_url)return;
+  try{const j=await api({action:'shop_ads'});if(j.ok&&j.ads&&j.ads.length)ADS=j.ads.map(a=>({...a,slot:a.slot||'banner',color:a.color||'#0B1F3A'}))}catch(e){} }
+async function loadVouchers(){ if(!SHOP.api_url)return;
+  try{const j=await api({action:'shop_vouchers'});if(j.ok&&j.vouchers&&j.vouchers.length)VOUCHERS=j.vouchers.map(v=>({...v,value:+v.value,min:+v.min,cap:+(v.cap||0)}))}catch(e){} }
+async function loadReviews(){ if(!SHOP.api_url)return;
+  try{const j=await api({action:'shop_reviews'});
+    if(j.ok&&j.reviews){REVIEWS={};j.reviews.forEach(r=>{(REVIEWS[r.sku]=REVIEWS[r.sku]||[]).push([r.name,+r.stars,r.text])})}}catch(e){} }
+
+/* ── Views / nav ── */
+function setView(v){
+  $$('.view').forEach(x=>x.classList.remove('on'));
+  $('#v-'+v).classList.add('on');
+  $$('#nav button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));
+  scrollTo(0,0);
+  if(v==='cats')renderCatList();
+  if(v==='wish')renderWish();
+  if(v==='cart')renderCart();
+  if(v==='orders')renderOrders();
+  if(v==='acct')renderAcct();
+}
+window.setView=setView;
+$$('#nav button').forEach(b=>b.onclick=()=>setView(b.dataset.v));
+
+/* ── Ads ── */
+let ADI=0,ADT=null;
+function adClick(a){
+  if(!a.link)return;
+  if(a.link.startsWith('#')){const c=a.link.slice(1);
+    if(['All',...new Set(CAT.map(p=>p.category))].includes(c)){CUR=c;setView('home');renderGrid();renderSortbar()}}
+  else open(a.link,'_blank','noopener');
+}
+window.adClick=adClick;
+function renderAds(){
+  const banners=ADS.filter(a=>a.slot==='banner'),band=$('#adband');
+  if(!banners.length){band.hidden=true;return}
+  band.hidden=false;
+  $('#adtrack').innerHTML=banners.map((a,i)=>`
+    <div class="ad" style="background:linear-gradient(120deg,${esc(a.color)},#0B1F3A 130%);display:${i===ADI?'flex':'none'}" data-i="${i}">
+      <span class="promo">Tindahan promo</span><b>${esc(a.title)}</b><small>${esc(a.text||'')}</small></div>`).join('');
+  $('#addots').innerHTML=banners.map((_,i)=>`<i class="${i===ADI?'on':''}" data-i="${i}"></i>`).join('');
+  $$('#adtrack .ad').forEach(el=>el.onclick=()=>adClick(banners[+el.dataset.i]));
+  $$('#addots i').forEach(el=>el.onclick=()=>{ADI=+el.dataset.i;renderAds()});
+  clearInterval(ADT);
+  if(banners.length>1)ADT=setInterval(()=>{ADI=(ADI+1)%banners.length;renderAds()},5200);
+}
+
+/* ── Flash sale ── */
+let FT=null;
+function renderFlash(){
+  const sale=CAT.filter(p=>p.sale_pct>0&&p.stock>0);
+  const f=$('#flash');
+  if(!sale.length){f.hidden=true;return}
+  f.hidden=false;
+  $('#ftrack').innerHTML=sale.map(p=>{
+    const soldPct=Math.min(96,Math.round(p.sold/(p.sold+p.stock)*100));
+    return `<button class="fcard" onclick="openProduct('${p.id}')">
+      <div class="fi">${imgFor(p,150)}<span class="off">-${p.sale_pct}%</span></div>
+      <div class="fb"><div class="fp">${Pk(price(p))}</div><div class="fo">${Pk(p.price)}</div>
+      <div class="fbar"><i style="width:${soldPct}%"></i><span>${soldPct}% CLAIMED</span></div></div></button>`;
+  }).join('');
+  clearInterval(FT);
+  const tick=()=>{const ms=saleEnds()-new Date();
+    const h=Math.floor(ms/36e5),m=Math.floor(ms%36e5/6e4),s2=Math.floor(ms%6e4/1e3);
+    $('#fh').textContent=String(h).padStart(2,'0');$('#fm').textContent=String(m).padStart(2,'0');$('#fs').textContent=String(s2).padStart(2,'0')};
+  tick();FT=setInterval(tick,1000);
+}
+window.sortSale=()=>{SORT='sale';renderSortbar();renderGrid();document.querySelector('#grid').scrollIntoView({behavior:'smooth'})};
+
+/* ── Quick cats + sort bar ── */
+const CATCOLOR={Premium:'#0B6E4F',Special:'#7C3AED',Regular:'#0B5FA5',Health:'#B84A0C',Grocery:'#C2273B',Feed:'#6B4F1D'};
+function renderQuick(){
+  const cats=[...new Set(CAT.map(p=>p.category))].slice(0,5);
+  $('#quickcats').innerHTML=cats.map(c=>`<button onclick="CUR='${c}';renderSortbar();renderGrid()">
+    <div class="qi" style="background:${CATCOLOR[c]||'#0B5FA5'}">${c[0]}</div><small>${esc(c)}</small></button>`).join('');
+}
+const SORTS=[['pop','Popular'],['sale','On sale'],['price_a','Price ↑'],['price_d','Price ↓'],['rating','Top rated'],['new','Newest']];
+function renderSortbar(){
+  const cats=['All',...new Set(CAT.map(p=>p.category))];
+  $('#sortbar').innerHTML=
+    cats.map(c=>`<button class="${c===CUR?'on':''}" onclick="CUR='${c}';renderSortbar();renderGrid()">${esc(c)}</button>`).join('')+
+    '<span style="border-left:1.5px solid var(--line);margin:0 3px"></span>'+
+    SORTS.map(([k,l])=>`<button class="${k===SORT?'on':''}" onclick="SORT='${k}';renderSortbar();renderGrid()">${l}</button>`).join('');
+}
+
+/* ── Grid ── */
+function prodCard(p){
+  const out=p.stock<=0,pr=price(p);
+  const w=WISH.includes(p.id);
+  return `<button class="prod ${out?'out':''}" data-id="${p.id}">
+    <div class="img">${imgFor(p,220)}
+      ${p.kg?`<span class="kg">${p.kg}kg</span>`:''}
+      ${p.sale_pct?`<span class="off">-${p.sale_pct}%</span>`:''}
+      ${out?'<span class="oos">OUT OF STOCK</span>':''}
+      <span class="heart ${w?'on':''}" data-w="${p.id}">${w?'♥':'♡'}</span>
+    </div>
+    <div class="info">
+      <div class="nm">${esc(p.name)}</div>
+      <div class="pr">${Pk(pr)}${p.sale_pct?`<span class="was">${Pk(p.price)}</span>`:''}</div>
+      <div class="stars">${stars(p.rating)} <span style="color:var(--ink-3);letter-spacing:0">(${p.ratings||0})</span></div>
+      <div class="meta"><span>${p.stock} left</span><span>${(p.sold||0).toLocaleString()} sold</span></div>
+    </div>
+    <div class="shelf" style="background:var(${SHELF[p.category]||'--sh-regular'})"></div>
+  </button>`;
+}
+function sortList(list){
+  const L=[...list];
+  if(SORT==='sale')return L.filter(p=>p.sale_pct>0).concat(L.filter(p=>!p.sale_pct));
+  if(SORT==='price_a')return L.sort((a,b)=>price(a)-price(b));
+  if(SORT==='price_d')return L.sort((a,b)=>price(b)-price(a));
+  if(SORT==='rating')return L.sort((a,b)=>(b.rating||0)-(a.rating||0));
+  if(SORT==='new')return L.sort((a,b)=>String(b.id).localeCompare(String(a.id)));
+  return L.sort((a,b)=>(b.sold||0)-(a.sold||0));
+}
+function renderGrid(){
+  const q=Q.toLowerCase();
+  let list=CAT.filter(p=>p.active!==false&&(CUR==='All'||p.category===CUR)&&(!q||p.name.toLowerCase().includes(q)));
+  list=sortList(list);
+  $('#gridTitle').textContent=q?'Search results':CUR==='All'?'For you':CUR;
+  $('#gridCount').textContent=list.length+' item'+(list.length===1?'':'s')+(LIVE?' · live stock':' · sample');
+  const gridAds=ADS.filter(a=>a.slot==='grid');let adPtr=0;
+  $('#grid').innerHTML=list.map((p,idx)=>{
+    let ad='';
+    if(gridAds.length&&idx>0&&idx%7===0){const a=gridAds[adPtr++%gridAds.length];
+      ad=`<button class="adtile" style="background:linear-gradient(150deg,${esc(a.color)},#0B1F3A 140%)" onclick='adClick(${JSON.stringify(a).replace(/'/g,"&#39;")})'>
+        <span class="promo">Sponsored · Tindahan</span><b>${esc(a.title)}</b><small>${esc(a.text||'')}</small></button>`}
+    return ad+prodCard(p);
+  }).join('')||'<div class="empty"><b>Walang nahanap</b>Try a different word, or browse a category.</div>';
+  wireCards('#grid');
+}
+function wireCards(root){
+  $$(root+' .prod').forEach(b=>b.onclick=e=>{
+    const h=e.target.closest('.heart');
+    if(h){toggleWish(h.dataset.w);e.stopPropagation();return}
+    openProduct(b.dataset.id);
+  });
+}
+$('#q').addEventListener('input',e=>{Q=e.target.value;renderGrid()});
+
+/* ── Wishlist ── */
+function toggleWish(id){
+  const i=WISH.indexOf(id);
+  if(i>=0){WISH.splice(i,1);toast('Removed from wishlist')}
+  else{WISH.push(id);toast('♥ Saved to wishlist')}
+  LS('wish',WISH);badges();
+  if($('#v-wish').classList.contains('on'))renderWish();else renderGrid();
+}
+window.toggleWish=toggleWish;
+function renderWish(){
+  const list=CAT.filter(p=>WISH.includes(p.id));
+  $('#wishCount').textContent=list.length+' saved';
+  $('#wishGrid').innerHTML=list.map(prodCard).join('')||'<div class="empty"><b>Wala pang laman</b>Tap the ♡ on any product to save it here.</div>';
+  wireCards('#wishGrid');
+}
+function badges(){
+  const n=CART.reduce((a,l)=>a+l.qty,0);
+  ['#cartN','#navCartN'].forEach(id=>{const el=$(id);el.hidden=!n;el.textContent=n});
+  const w=$('#wishN');w.hidden=!WISH.length;w.textContent=WISH.length;
+}
+
+/* ── Recently viewed ── */
+function markViewed(id){
+  let r=LS('recent')||[];r=[id,...r.filter(x=>x!==id)].slice(0,10);LS('recent',r);
+}
+function renderRecent(){
+  const r=(LS('recent')||[]).map(id=>CAT.find(p=>p.id===id)).filter(Boolean);
+  $('#recentRow').innerHTML=r.length?r.map(p=>`<button class="fcard" onclick="openProduct('${p.id}')">
+    <div class="fi">${imgFor(p,150)}</div><div class="fb"><div class="fp" style="color:var(--navy)">${Pk(price(p))}</div>
+    <div style="font-size:10px;color:var(--ink-2);line-height:1.3">${esc(p.name.slice(0,26))}</div></div></button>`).join('')
+    :'<div class="note">Products you open will appear here.</div>';
+}
+
+/* ── Product detail ── */
+let PDQ=1,PDVAR=null;
+function variantsOf(p){return p.vgroup?CAT.filter(x=>x.vgroup===p.vgroup):[p]}
+function openProduct(id){
+  const p=CAT.find(x=>x.id===id);if(!p)return;
+  PDQ=1;PDVAR=p.id;markViewed(id);
+  drawPD(p);
+}
+window.openProduct=openProduct;
+function drawPD(p){
+  const vars=variantsOf(p);
+  const revs=REVIEWS[p.id]||[];
+  const sim=sortList(CAT.filter(x=>x.category===p.category&&x.id!==p.id)).slice(0,6);
+  const w=WISH.includes(p.id),pr=price(p);
+  sheet(`<div id="pd">
+    <div class="big">${imgFor(p,420)}
+      <span class="heart ${w?'on':''}" style="bottom:10px;right:10px;width:36px;height:36px;font-size:18px" onclick="toggleWish('${p.id}');drawPDKeep('${p.id}')">${w?'♥':'♡'}</span></div>
+    <h3 style="margin-top:14px">${esc(p.name)}</h3>
+    <div class="stars" style="font-size:12px">${stars(p.rating)} <span style="color:var(--ink-2);letter-spacing:0">${(p.rating||0).toFixed(1)} · ${p.ratings||revs.length} rating${(p.ratings||revs.length)===1?'':'s'} · ${(p.sold||0).toLocaleString()} sold</span></div>
+    <div class="prow"><span class="p">${Pk(pr)}</span>${p.sale_pct?`<span class="was">${Pk(p.price)}</span><span class="pill" style="background:#FBE5E8;color:#B01E30">FLASH -${p.sale_pct}%</span>`:''}</div>
+    <div><span class="pill">${esc(p.category)}</span><span class="pill">${p.stock} in stock</span>${p.kg?`<span class="pill">${p.kg}kg / ${esc(p.unit)}</span>`:''}</div>
+    ${vars.length>1?`<label style="margin-top:12px">Variation</label><div class="varrow">${vars.map(v=>
+      `<button class="${v.id===p.id?'on':''}" onclick="openProduct('${v.id}')">${esc(v.name.replace(/^Sinandomeng( Premium)?\s*/,'')||v.name)} · ${Pk(price(v))}</button>`).join('')}</div>`:''}
+    <div class="qty"><button onclick="pdq(-1)">−</button><b id="pdN">1</b><button onclick="pdq(1)">+</button>
+      <span style="font-size:12px;color:var(--ink-3)" id="pdSub">= ${Pk(pr)}</span></div>
+    <div class="dual">
+      <button class="btn ghost" style="flex:1" onclick="addCart('${p.id}',PDQ)">Add to cart</button>
+      <button class="btn coral" style="flex:1" onclick="buyNow('${p.id}')">Buy now</button>
+    </div>
+    <p class="note">Stock is the store's live inventory${LIVE?'':' (sample data)'}. Rice ships milled-fresh, oldest lot first.</p>
+    <div class="sechead" style="margin-top:18px"><h2 style="font-size:14px">Ratings & reviews</h2>
+      <button class="btn sm ghost" onclick="writeReview('${p.id}')">Write a review</button></div>
+    ${revs.length?revs.map(r=>`<div class="review"><div class="rh"><b>${esc(r[0])}</b><span class="stars">${stars(r[1])}</span></div><p>${esc(r[2])}</p></div>`).join('')
+      :'<p class="note">No reviews yet — be the first after your order arrives.</p>'}
+    ${sim.length?`<div class="sechead" style="margin-top:16px"><h2 style="font-size:14px">You may also like</h2></div>
+      <div class="simrow">${sim.map(x=>`<button class="fcard" onclick="openProduct('${x.id}')">
+        <div class="fi">${imgFor(x,150)}${x.sale_pct?`<span class="off">-${x.sale_pct}%</span>`:''}</div>
+        <div class="fb"><div class="fp" style="color:var(--navy)">${Pk(price(x))}</div>
+        <div style="font-size:10px;color:var(--ink-2);line-height:1.3">${esc(x.name.slice(0,26))}</div></div></button>`).join('')}</div>`:''}
+  </div>`);
+  window._pd=p;
+}
+window.drawPDKeep=id=>{const p=CAT.find(x=>x.id===id);if(p)drawPD(p)};
+window.pdq=d=>{const p=window._pd;PDQ=Math.max(1,Math.min(p.stock,PDQ+d));
+  $('#pdN').textContent=PDQ;$('#pdSub').textContent='= '+Pk(PDQ*price(p))};
+window.addCart=(id,q)=>{
+  const p=CAT.find(x=>x.id===id);if(!p||p.stock<=0)return toast('Out of stock');
+  const l=CART.find(x=>x.id===id);
+  const want=(l?l.qty:0)+(q||1);
+  if(want>p.stock)return toast('Only '+p.stock+' left');
+  if(l)l.qty=want;else CART.push({id:p.id,sku:p.sku,name:p.name,price:price(p),listPrice:p.price,qty:q||1,kg:p.kg,unit:p.unit,category:p.category,sel:true});
+  saveCart();badges();toast('✓ '+p.name+' added');
+  if(navigator.vibrate)navigator.vibrate(35);
+};
+window.buyNow=id=>{addCart(id,PDQ);closeSheet();CART.forEach(l=>l.sel=l.id===id);saveCart();setView('cart');openCheckout()};
+
+/* ── Reviews ── */
+window.writeReview=id=>{
+  const orders=LS('orders')||[];
+  sheet(`<h3>Write a review</h3>
+    <p class="note" style="margin-top:2px">Reviews are tied to a delivered order — enter the order number that included this item.</p>
+    <label>Order number</label><input id="rvNo" class="mono" value="${orders[0]?orders[0].order_no:''}" placeholder="NS-…">
+    <label>Your name</label><input id="rvName" value="${esc(CK.name||'')}">
+    <label>Stars</label><div class="varrow" id="rvStars">${[1,2,3,4,5].map(n=>`<button data-n="${n}" onclick="$$('#rvStars button').forEach(b=>b.classList.toggle('on',+b.dataset.n<=${n}))">★</button>`).join('')}</div>
+    <label>Your review</label><textarea id="rvTxt" rows="3" placeholder="Kumusta ang bigas?"></textarea>
+    <button class="btn mango" style="margin-top:12px" onclick="postReview('${id}')">Post review</button>`);
+  $$('#rvStars button').forEach(b=>b.classList.toggle('on',+b.dataset.n<=5));
+};
+window.postReview=async id=>{
+  const n=$$('#rvStars button.on').length||5;
+  const name=$('#rvName').value.trim()||'Suki', txt=$('#rvTxt').value.trim(), no=$('#rvNo').value.trim();
+  if(!txt)return toast('Write a sentence or two');
+  if(SHOP.api_url){
+    try{
+      const j=await api({action:'shop_review',payload:{sku:id,order_no:no,phone:CK.phone||'',name,stars:n,text:txt}},true);
+      if(!j.ok)return toast(j.error||'The store could not verify that order.');
+    }catch(e){return toast('Could not reach the store — try again later.')}
+  }
+  (REVIEWS[id]=REVIEWS[id]||[]).unshift([name,n,txt]);
+  const p=CAT.find(x=>x.id===id);
+  if(p){p.ratings=(p.ratings||0)+1;p.rating=((p.rating||4.5)*(p.ratings-1)+n)/p.ratings}
+  toast('Salamat! Review posted.');
+  openProduct(id);
+};
+</script>
+
+<script>
+'use strict';
+/* ════════ CART ════════ */
+function selLines(){return CART.filter(l=>l.sel)}
+function cartTotals(){
+  const sub=selLines().reduce((a,l)=>a+l.qty*l.price,0);
+  const listSub=selLines().reduce((a,l)=>a+l.qty*(l.listPrice||l.price),0);
+  let ship=sub===0?0:(SHIPMODE==='sameday'?SHOP.sameday_fee:(sub>=SHOP.free_over?0:SHOP.delivery_fee));
+  let vdisc=0,shipFree=false;
+  if(USEDVOUCH){
+    const v=USEDVOUCH;
+    if(sub>=v.min){
+      if(v.kind==='fixed')vdisc=Math.min(v.value,sub);
+      else if(v.kind==='pct'){vdisc=sub*v.value/100;if(v.cap)vdisc=Math.min(vdisc,v.cap)}
+      else if(v.kind==='ship'&&SHIPMODE==='standard'){ship=0;shipFree=true}
+    }
+  }
+  let cdisc=0;
+  if(USECOINS&&COINS.bal>0){
+    const cap=sub*SHOP.coins.capPct/100;
+    cdisc=Math.min(COINS.bal*SHOP.coins.value,cap);
+  }
+  vdisc=Math.round(vdisc*100)/100;cdisc=Math.round(cdisc*100)/100;
+  return{sub,listSub,ship,vdisc,cdisc,shipFree,total:Math.max(0,sub-vdisc-cdisc+ship),saved:(listSub-sub)+vdisc+cdisc};
+}
+function renderCart(){
+  if(!CART.length){
+    $('#cartList').innerHTML='<div class="empty"><b>Wala pang laman</b>Browse the shop and add something masarap.</div>';
+    $('#cartFoot').innerHTML='<button class="btn mango" onclick="setView(\'home\')">Start shopping</button>';return;
+  }
+  $('#cartList').innerHTML=CART.map((l,i)=>{
+    const p=CAT.find(x=>x.id===l.id)||l;
+    return `<div class="cline">
+      <input type="checkbox" class="ck" ${l.sel?'checked':''} onchange="cartSel(${i},this.checked)">
+      <div class="th">${imgFor(p,90)}</div>
+      <div class="g"><b>${esc(l.name)}</b><div class="p">${Pk(l.price)}${l.listPrice>l.price?` <span style="font-size:10px;color:var(--ink-3);text-decoration:line-through;font-family:var(--body);font-weight:500">${Pk(l.listPrice)}</span>`:''}</div></div>
+      <div class="q"><button onclick="cq(${i},-1)">−</button><b>${l.qty}</b><button onclick="cq(${i},1)">+</button></div>
+    </div>`;
+  }).join('');
+  const t=cartTotals(),coinMax=Math.min(COINS.bal*SHOP.coins.value,t.sub*SHOP.coins.capPct/100);
+  $('#cartFoot').innerHTML=`
+    <button class="vcard" style="width:100%;text-align:left" onclick="openVouchers(true)">
+      <div class="vl"><b>🎟️</b><small>Voucher</small></div>
+      <div class="vr"><b>${USEDVOUCH?esc(USEDVOUCH.label)+' — '+esc(USEDVOUCH.code):'Select or enter a voucher'}</b>
+      <small>${USEDVOUCH?esc(USEDVOUCH.desc):(MYVOUCH.length? MYVOUCH.length+' collected · tap to apply':'Tap to collect vouchers')}</small></div>
+      <span class="vbtn" style="color:var(--ink-3)">›</span></button>
+    ${COINS.bal>0?`<div class="cline" style="align-items:center">
+      <input type="checkbox" class="ck" ${USECOINS?'checked':''} onchange="USECOINS=this.checked;renderCart()">
+      <div class="g"><b>Use Rice Coins</b><small style="color:var(--ink-3);font-size:11px">${COINS.bal} coins → up to ${P(coinMax)} off (max ${SHOP.coins.capPct}% of items)</small></div>
+    </div>`:''}
+    <div style="background:#fff;border-radius:13px;padding:12px;box-shadow:var(--shadow);margin-top:4px">
+      <div class="tot"><span>Items (${selLines().reduce((a,l)=>a+l.qty,0)})</span><b>${P(t.sub)}</b></div>
+      ${t.vdisc?`<div class="tot"><span>Voucher ${esc(USEDVOUCH.code)}</span><b class="disc">−${P(t.vdisc)}</b></div>`:''}
+      ${t.cdisc?`<div class="tot"><span>Rice Coins</span><b class="disc">−${P(t.cdisc)}</b></div>`:''}
+      <div class="tot"><span>Delivery${t.shipFree?' (voucher)':t.ship===0&&t.sub>0?' — free over '+Pk(SHOP.free_over):''}</span><b>${t.ship?P(t.ship):'FREE'}</b></div>
+      ${t.saved>0?`<div class="tot"><span>You save</span><b class="disc">${P(t.saved)}</b></div>`:''}
+      <div class="tot grand"><span>Total</span><span>${P(t.total)}</span></div>
+    </div>
+    <button class="btn coral" style="margin-top:12px" onclick="openCheckout()" ${selLines().length?'':'disabled'}>Checkout (${selLines().length}) →</button>`;
+  badges();
+}
+window.cartSel=(i,v)=>{CART[i].sel=v;saveCart();renderCart()};
+window.cartSelectAll=()=>{const all=CART.every(l=>l.sel);CART.forEach(l=>l.sel=!all);saveCart();renderCart()};
+window.cq=(i,d)=>{
+  const l=CART[i],p=CAT.find(x=>x.id===l.id);
+  l.qty+=d;
+  if(p&&l.qty>p.stock){l.qty=p.stock;toast('Only '+p.stock+' left')}
+  if(l.qty<=0)CART.splice(i,1);
+  saveCart();renderCart();
+};
+
+/* ════════ VOUCHERS ════════ */
+function vOK(v,sub){return sub>=v.min}
+window.openVouchers=fromCart=>{
+  const t=cartTotals();
+  sheet(`<h3>My vouchers</h3>
+    <div style="display:flex;gap:8px;margin:10px 0 4px">
+      <input id="vCode" class="mono" placeholder="Enter voucher code" style="text-transform:uppercase">
+      <button class="btn sm mango" style="width:auto" onclick="collectCode()">Collect</button></div>
+    ${VOUCHERS.map(v=>{
+      const mine=MYVOUCH.includes(v.code),usable=vOK(v,t.sub)&&CART.length;
+      const active=USEDVOUCH&&USEDVOUCH.code===v.code;
+      return `<div class="vcard"><div class="vl"><b>${esc(v.label)}</b><small>${v.kind==='ship'?'shipping':'discount'}</small></div>
+        <div class="vr"><b>${esc(v.code)}</b><small>${esc(v.desc)}${mine&&!usable?' · <span style="color:var(--coral)">below min spend</span>':''}</small></div>
+        <button class="btn sm ${active?'navy':mine?'mango':'ghost'} vbtn" style="width:auto"
+          onclick="${mine?`applyVouch('${v.code}',${!!fromCart})`:`collectVouch('${v.code}')`}">${active?'Applied ✓':mine?'Use':'Collect'}</button></div>`;
+    }).join('')}
+    ${USEDVOUCH?'<button class="btn ghost" style="width:100%;margin-top:6px" onclick="applyVouch(null,true)">Remove applied voucher</button>':''}
+    <p class="note">One voucher per order. The store verifies voucher terms when it confirms the order.</p>`);
+};
+window.collectVouch=code=>{
+  if(!MYVOUCH.includes(code))MYVOUCH.push(code);
+  LS('myvouch',MYVOUCH);toast('🎟️ Voucher collected');openVouchers(true);
+};
+window.collectCode=()=>{
+  const c=($('#vCode').value||'').trim().toUpperCase();
+  const v=VOUCHERS.find(x=>x.code===c);
+  if(!v)return toast('Code not found');
+  collectVouch(c);
+};
+window.applyVouch=(code,fromCart)=>{
+  USEDVOUCH=code?VOUCHERS.find(x=>x.code===code):null;
+  if(USEDVOUCH){
+    const t=cartTotals();
+    if(t.sub<USEDVOUCH.min){USEDVOUCH=null;return toast('Needs min '+Pk(VOUCHERS.find(x=>x.code===code).min)+' of selected items')}
+    toast(USEDVOUCH.label+' applied');
+  }
+  closeSheet();
+  if(fromCart)renderCart();
+};
+
+/* ════════ COINS / CHECK-IN ════════ */
+const dayKey=d=>d.toISOString().slice(0,10);
+window.doCheckin=()=>{
+  const today=dayKey(new Date());
+  if(COINS.last===today)return toast('Checked in na today — balik bukas!');
+  const yest=dayKey(new Date(Date.now()-864e5));
+  COINS.streak=COINS.last===yest?(COINS.streak%7)+1:1;
+  COINS.last=today;
+  const bonus=COINS.streak===7?15:5;
+  COINS.bal+=bonus;
+  LS('coins',COINS);
+  toast('+'+bonus+' Rice Coins · day '+COINS.streak+' streak'+(COINS.streak===7?' — bonus!':''));
+  renderAcct();
+};
+function renderAcct(){
+  $('#accName').textContent=CK.name||'Guest ka pa';
+  $('#accSub').textContent=CK.phone?CK.phone+(CK.area?' · '+CK.area:''):'Set up your delivery details';
+  $('#accAv').textContent=(CK.name||'?').trim()[0].toUpperCase();
+  $('#accCoins').textContent=COINS.bal;
+  $('#accVouchers').textContent=MYVOUCH.length;
+  $('#accOrders').textContent=(LS('orders')||[]).length;
+  const today=dayKey(new Date()),done=COINS.last===today;
+  $('#streakLbl').textContent='streak: day '+(COINS.streak||0)+' of 7';
+  $('#checkinRow').innerHTML=[...Array(7)].map((_,i)=>{
+    const got=i<COINS.streak;
+    return `<div class="${got?'got':''} ${i===COINS.streak-(done?1:0)&&!got?'today':''}"><b>+${i===6?15:5}</b>Day ${i+1}</div>`;
+  }).join('');
+  $('#checkinBtn').disabled=done;
+  $('#checkinBtn').textContent=done?'✓ Checked in — see you tomorrow':'Check in today · +'+(COINS.streak===6&&COINS.last===dayKey(new Date(Date.now()-864e5))?15:5)+' coins';
+  renderRecent();
+}
+window.editProfile=()=>{
+  sheet(`<h3>My profile</h3>
+    <label>Full name</label><input id="pfName" value="${esc(CK.name||'')}">
+    <label>Mobile number</label><input id="pfPhone" inputmode="tel" value="${esc(CK.phone||'')}">
+    <label>Barangay / area</label><select id="pfArea">${SHOP.areas.map(a=>`<option ${CK.area===a?'selected':''}>${a}</option>`).join('')}</select>
+    <label>Street address / landmark</label><textarea id="pfAddr" rows="2">${esc(CK.addr||'')}</textarea>
+    <button class="btn mango" style="margin-top:14px" onclick="saveProfile()">Save</button>`);
+};
+window.saveProfile=()=>{
+  Object.assign(CK,{name:$('#pfName').value.trim(),phone:$('#pfPhone').value.trim(),area:$('#pfArea').value,addr:$('#pfAddr').value.trim()});
+  LS('cust',CK);closeSheet();renderAcct();toast('Profile saved');
+};
+window.chatStore=()=>{
+  sheet(`<h3>Chat with the store</h3>
+    <p class="note" style="margin-top:2px">Ask about stock, wholesale prices, or your delivery. The store replies by text.</p>
+    <label>Your message</label><textarea id="chMsg" rows="3" placeholder="e.g. May stock pa ba ng Dinorado? 3 sacks sana."></textarea>
+    <button class="btn mango" style="margin-top:12px" onclick="sendChat()">Send to store</button>
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <a style="flex:1" href="sms:${SHOP.gcash.number.replace(/\s/g,'')}"><button class="btn ghost" style="width:100%">SMS</button></a>
+      <a style="flex:1" href="viber://chat?number=%2B63${SHOP.gcash.number.replace(/\s/g,'').replace(/^0/,'')}"><button class="btn ghost" style="width:100%">Viber</button></a>
+    </div>`);
+};
+window.sendChat=async()=>{
+  const m=$('#chMsg').value.trim();if(!m)return toast('Type a message muna');
+  if(SHOP.api_url){
+    try{const j=await api({action:'shop_chat',payload:{name:CK.name||'Guest',phone:CK.phone||'',text:m}},true);
+      if(j.ok){closeSheet();return toast('Sent! The store will text you back.')}}catch(e){}
+  }
+  location.href='sms:'+SHOP.gcash.number.replace(/\s/g,'')+'?body='+encodeURIComponent(m);
+};
+window.aboutSheet=()=>{
+  sheet(`<h3>About NEXSHOP</h3>
+    <p class="note" style="margin-top:4px;font-size:12.5px">
+    <b>Payments.</b> Cash on delivery, GCash and Maya (send + reference number), or card via a secure PayMongo link. The shop never sees your card number.<br><br>
+    <b>Delivery.</b> ${SHOP.areas.slice(0,-1).join(', ')} and nearby Iligan barangays. Standard ${Pk(SHOP.delivery_fee)} (free over ${Pk(SHOP.free_over)}), same-day ${Pk(SHOP.sameday_fee)}.<br><br>
+    <b>Rice Coins.</b> Earn 1 coin per ${Pk(SHOP.coins.earnPer)} spent; each coin is worth ${P(SHOP.coins.value)} off future orders, up to ${SHOP.coins.capPct}% of the items total. Coins live on this phone.<br><br>
+    <b>Your data.</b> Orders go straight to the store's own system — no third-party marketplace in between.</p>
+    <p class="note" style="text-align:center;margin-top:14px">Developed by NEXARCH · Powered by CYRABELL<br>Precision. Scale. Control.</p>`);
+};
+
+/* ════════ CHECKOUT ════════ */
+function steps(n){return`<div class="steps"><span class="${n>=1?'on':''}">1 · DETAILS</span><span class="${n>=2?'on':''}">2 · PAYMENT</span><span class="${n>=3?'on':''}">3 · DONE</span></div>`}
+window.openCheckout=()=>{
+  if(!selLines().length)return toast('Select at least one item');
+  const t=cartTotals();
+  sheet(`<h3>Checkout</h3>${steps(1)}
+    <label>Full name</label><input id="ckName" value="${esc(CK.name||'')}" placeholder="Juan dela Cruz">
+    <label>Mobile number</label><input id="ckPhone" inputmode="tel" value="${esc(CK.phone||'')}" placeholder="09xx xxx xxxx">
+    <label>Barangay / area</label><select id="ckArea">${SHOP.areas.map(a=>`<option ${CK.area===a?'selected':''}>${a}</option>`).join('')}</select>
+    <label>Street address / landmark</label><textarea id="ckAddr" rows="2" placeholder="House no., street, landmark">${esc(CK.addr||'')}</textarea>
+    <label>Delivery option</label>
+    <div class="varrow">
+      <button class="${SHIPMODE==='standard'?'on':''}" onclick="SHIPMODE='standard';openCheckout()">Standard · ${t.sub>=SHOP.free_over?'FREE':Pk(SHOP.delivery_fee)}</button>
+      <button class="${SHIPMODE==='sameday'?'on':''}" onclick="SHIPMODE='sameday';openCheckout()">Same-day · ${Pk(SHOP.sameday_fee)}</button>
+    </div>
+    <label>Note to rider (optional)</label><input id="ckNote" placeholder="e.g. blue gate, tawag pagdating">
+    <div class="tot grand" style="margin-top:16px"><span>Total to pay</span><span>${P(t.total)}</span></div>
+    <button class="btn mango" style="margin-top:12px" onclick="ckNext()">Choose payment →</button>`);
+};
+window.ckNext=()=>{
+  const name=$('#ckName').value.trim(),phone=$('#ckPhone').value.trim();
+  if(name.length<2)return toast('Pakisulat ang pangalan');
+  if(!/^0?9\d{9}$|^\+?63\s?9\d{9}$/.test(phone.replace(/[\s-]/g,'')))return toast('Check the mobile number (09xx…)');
+  Object.assign(CK,{name,phone,area:$('#ckArea').value,addr:$('#ckAddr').value.trim(),note:$('#ckNote').value.trim()});
+  LS('cust',CK);openPayment();
+};
+function payCard(k,title,subtitle,bg){
+  return`<div class="payopt ${PAY===k?'on':''}" onclick="setPay('${k}')">
+    <div class="ic" style="background:${bg}">${k.toUpperCase().slice(0,k==='cod'?3:5)}</div>
+    <div class="g"><b>${title}</b><small>${subtitle}</small></div></div>`;
+}
+function openPayment(){
+  const t=cartTotals();
+  sheet(`<h3>Payment</h3>${steps(2)}
+    ${payCard('cod','Cash on Delivery','Pay the rider when your order arrives. Prepare '+P(t.total)+'.','#14A36A')}
+    ${payCard('gcash','GCash','Send to our GCash, then enter the reference number.','#0666EB')}
+    ${payCard('maya','Maya','Send to our Maya, then enter the reference number.','#0BB588')}
+    ${payCard('card','Debit / Credit card','Secure card checkout via PayMongo. We never see your card number.','#0B1F3A')}
+    <div id="payDetail"></div>
+    <button class="btn mango" style="margin-top:12px" id="placeBtn" onclick="placeOrder()">Place order · ${P(t.total)}</button>
+    <p class="note">By ordering you agree the store may text or call ${esc(CK.phone)} about this delivery.</p>`);
+  setPay(PAY);
+}
+window.setPay=k=>{
+  PAY=k;LS('paym',k);
+  $$('.payopt').forEach(el=>el.classList.remove('on'));
+  $$('.payopt')[{cod:0,gcash:1,maya:2,card:3}[k]].classList.add('on');
+  const t=cartTotals(),d=$('#payDetail');
+  if(k==='gcash'||k==='maya'){
+    const acc=SHOP[k];
+    d.innerHTML=`<div class="qrbox">
+      <canvas id="payQR" width="180" height="180"></canvas>
+      <div style="font-family:var(--disp);font-weight:700;color:var(--navy);margin-top:8px">${esc(acc.name)}</div>
+      <div style="font-family:var(--mono);font-size:15px;letter-spacing:.06em">${esc(acc.number)}</div>
+      <div class="note">Send exactly <b>${P(t.total)}</b>, then paste the reference number below. The store verifies it before dispatch.</div></div>
+    <label>${k==='gcash'?'GCash':'Maya'} reference number</label>
+    <input id="payRef" inputmode="numeric" placeholder="e.g. 1023 456 789012">`;
+    drawQR($('#payQR'),(k==='gcash'?'GCASH':'MAYA')+'|'+acc.number.replace(/\s/g,'')+'|'+t.total.toFixed(2));
+  }else if(k==='card'){
+    d.innerHTML=`<p class="note" style="margin:10px 2px">After you place the order you'll get a secure PayMongo link to enter your card. If the store hasn't enabled card payments yet, the order is saved and they'll text you a payment link.</p>`;
+  }else d.innerHTML='';
+};
+function drawQR(cv,data){
+  const x=cv.getContext('2d');const N=29,s=cv.width/N;
+  let h=2166136261;for(const ch of data){h^=ch.charCodeAt(0);h=Math.imul(h,16777619)}
+  const rnd=()=>{h^=h<<13;h^=h>>>17;h^=h<<5;return((h>>>0)/4294967296)};
+  x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height);x.fillStyle='#0B1F3A';
+  const finder=(cx,cy)=>{x.fillRect(cx*s,cy*s,7*s,7*s);x.fillStyle='#fff';x.fillRect((cx+1)*s,(cy+1)*s,5*s,5*s);x.fillStyle='#0B1F3A';x.fillRect((cx+2)*s,(cy+2)*s,3*s,3*s)};
+  for(let r=0;r<N;r++)for(let c=0;c<N;c++){
+    const inF=(r<8&&c<8)||(r<8&&c>=N-8)||(r>=N-8&&c<8);
+    if(!inF&&rnd()>.52)x.fillRect(c*s,r*s,s-.5,s-.5);
+  }
+  finder(0,0);finder(N-7,0);finder(0,N-7);
+}
+window.placeOrder=async()=>{
+  const t=cartTotals();
+  let ref='';
+  if(PAY==='gcash'||PAY==='maya'){
+    ref=($('#payRef').value||'').trim();
+    if(ref.replace(/\D/g,'').length<8)return toast('Enter the '+(PAY==='gcash'?'GCash':'Maya')+' reference number');
+  }
+  const lines=selLines();
+  const order={
+    order_no:'NS-'+new Date().toISOString().slice(2,10).replace(/-/g,'')+'-'+uid().slice(-4),
+    ts:new Date().toISOString(),
+    name:CK.name,phone:CK.phone,area:CK.area,address:CK.addr,note:CK.note,
+    items:lines.map(l=>({sku:l.sku,product_id:l.id,name:l.name,qty:l.qty,price:l.price,line_total:l.qty*l.price})),
+    subtotal:t.sub,delivery:t.ship,
+    voucher:USEDVOUCH?USEDVOUCH.code:'',voucher_disc:t.vdisc,coins_used:t.cdisc?Math.round(t.cdisc/SHOP.coins.value):0,coins_disc:t.cdisc,
+    shipping:SHIPMODE,total:t.total,
+    payment_method:PAY,payment_ref:ref,
+    payment_status:PAY==='cod'?'collect on delivery':(ref?'reference submitted':'awaiting payment'),
+    status:'placed'
+  };
+  $('#placeBtn').disabled=true;$('#placeBtn').textContent='Placing order…';
+  let payUrl='';
+  if(SHOP.api_url){
+    try{
+      const j=await api({action:'shop_order',payload:order},true);
+      if(!j.ok)throw new Error(j.error||'rejected');
+      order.order_no=j.order_no||order.order_no;
+      payUrl=j.pay_url||'';
+    }catch(e){
+      const q=LS('pending')||[];q.push(order);LS('pending',q);
+      toast('Saved offline — will send when the store link returns');
+    }
+  }
+  // earn coins + spend redeemed
+  if(order.coins_used)COINS.bal=Math.max(0,COINS.bal-order.coins_used);
+  const earned=Math.floor(t.sub/SHOP.coins.earnPer);
+  COINS.bal+=earned;LS('coins',COINS);
+  const hist=LS('orders')||[];hist.unshift(order);LS('orders',hist.slice(0,25));
+  // remove purchased lines only
+  CART=CART.filter(l=>!l.sel);CART.forEach(l=>l.sel=true);saveCart();
+  USEDVOUCH=null;USECOINS=false;
+  badges();
+  orderDone(order,payUrl,earned);
+};
+function orderDone(o,payUrl,earned){
+  sheet(`<h3>Salamat, ${esc(o.name.split(' ')[0])}! 🎉</h3>${steps(3)}
+    <p style="font-size:13px;color:var(--ink-2)">Your order is in. Keep this number — track it any time under <b>Orders</b>.</p>
+    <div class="orderno">${o.order_no}</div>
+    <div class="tot"><span>${o.items.reduce((a,i)=>a+i.qty,0)} item(s)</span><b>${P(o.total)}</b></div>
+    ${o.voucher_disc?`<div class="tot"><span>Voucher ${esc(o.voucher)}</span><b class="disc">−${P(o.voucher_disc)}</b></div>`:''}
+    ${o.coins_disc?`<div class="tot"><span>Rice Coins used</span><b class="disc">−${P(o.coins_disc)}</b></div>`:''}
+    <div class="tot"><span>Payment</span><b>${o.payment_method.toUpperCase()}${o.payment_ref?' · ref '+esc(o.payment_ref):''}</b></div>
+    <div class="tot"><span>Deliver to</span><b>${esc(o.area)} · ${o.shipping==='sameday'?'same-day':'standard'}</b></div>
+    ${earned?`<div class="tot"><span>Rice Coins earned</span><b style="color:var(--gold)">+${earned} 🪙</b></div>`:''}
+    ${payUrl?`<a href="${esc(payUrl)}" target="_blank" rel="noopener"><button class="btn navy" style="margin-top:12px">Pay securely with card →</button></a>`:''}
+    ${o.payment_method==='card'&&!payUrl?'<p class="note">The store will text a secure card-payment link to '+esc(o.phone)+'.</p>':''}
+    <button class="btn ghost" style="width:100%;margin-top:10px" onclick="closeSheet();setView('orders')">View my orders</button>
+    <button class="btn mango" style="margin-top:8px" onclick="closeSheet();setView('home')">Continue shopping</button>`);
+}
+
+/* ════════ ORDERS ════════ */
+const FLOW=[['placed','Order placed'],['confirmed','Confirmed by store'],['preparing','Preparing your items'],['out','Out for delivery'],['delivered','Delivered']];
+function renderOrders(){
+  const hist=LS('orders')||[];
+  $('#orderList').innerHTML=hist.length?hist.map(o=>`
+    <div class="ocard">
+      <div class="oh"><b>${esc(o.order_no)}</b><span class="stag st-${o.status||'placed'}">${esc(o.status||'placed')}</span></div>
+      <p>${o.items.map(i=>i.qty+'× '+esc(i.name)).join(', ').slice(0,90)}</p>
+      <p style="margin-top:3px"><b style="color:var(--navy)">${Pk(o.total)}</b> · ${esc((o.payment_method||'').toUpperCase())} · ${new Date(o.ts).toLocaleDateString('en-PH',{month:'short',day:'numeric'})}</p>
+      <div class="oact">
+        <button class="btn sm ghost" onclick="trackOrder('${o.order_no}')">Track</button>
+        ${o.status==='placed'?`<button class="btn sm ghost" style="color:var(--coral);border-color:#F6C7C0" onclick="cancelOrder('${o.order_no}')">Cancel</button>`:''}
+        <button class="btn sm ghost" onclick="buyAgain('${o.order_no}')">Buy again</button>
+        ${o.status==='delivered'?`<button class="btn sm mango" style="width:auto" onclick="writeReview('${o.items[0].product_id||o.items[0].sku}')">Review</button>`:''}
+      </div>
+    </div>`).join('')
+    :'<div class="empty"><b>Wala pang orders</b>Your orders will show here after checkout.</div>';
+}
+window.refreshOrders=async()=>{
+  const hist=LS('orders')||[];
+  if(!SHOP.api_url||!hist.length){renderOrders();return toast(SHOP.api_url?'Nothing to refresh':'Demo mode — statuses update when the store backend is linked')}
+  let changed=0;
+  for(const o of hist.slice(0,6)){
+    try{const j=await api({action:'shop_track',order:o.order_no,phone:o.phone||CK.phone||''});
+      if(j.ok&&j.order&&j.order.status!==o.status){o.status=j.order.status;changed++}}catch(e){}
+  }
+  LS('orders',hist);renderOrders();
+  toast(changed?changed+' order(s) updated':'All statuses up to date');
+};
+window.cancelOrder=async no=>{
+  const hist=LS('orders')||[];const o=hist.find(x=>x.order_no===no);
+  if(!o||o.status!=='placed')return toast('Only just-placed orders can be cancelled');
+  if(SHOP.api_url){
+    try{const j=await api({action:'shop_cancel',payload:{order_no:no,phone:o.phone||CK.phone||''}},true);
+      if(!j.ok)return toast(j.error||'The store has already started this order.');}
+    catch(e){return toast('Could not reach the store — call them instead.')}
+  }
+  o.status='cancelled';LS('orders',hist);renderOrders();toast(no+' cancelled');
+};
+window.buyAgain=no=>{
+  const o=(LS('orders')||[]).find(x=>x.order_no===no);if(!o)return;
+  let added=0;
+  o.items.forEach(it=>{const p=CAT.find(x=>x.id===(it.product_id||it.sku));
+    if(p&&p.stock>0){addCart(p.id,Math.min(it.qty,p.stock));added++}});
+  if(added)setView('cart');else toast('Those items are out of stock right now');
+};
+window.trackSheet=()=>{
+  const hist=LS('orders')||[];
+  sheet(`<h3>Track an order</h3>
+    <label>Order number</label><input id="tkNo" class="mono" placeholder="NS-260716-XXXX" value="${hist[0]?hist[0].order_no:''}">
+    <label>Mobile number used</label><input id="tkPh" inputmode="tel" value="${esc(CK.phone||'')}">
+    <button class="btn navy" style="margin-top:14px" onclick="trackOrder($('#tkNo').value.trim(),$('#tkPh').value.trim())">Find my order</button>`);
+};
+window.trackOrder=async(no,ph)=>{
+  let o=null;
+  if(SHOP.api_url){
+    try{const j=await api({action:'shop_track',order:no,phone:ph||CK.phone||''});if(j.ok)o=j.order}catch(e){}
+  }
+  if(!o){o=(LS('orders')||[]).find(x=>x.order_no===no);
+    if(!o)return toast('Order not found — check the number');}
+  if(o.status==='cancelled')return sheet(`<h3>${esc(no)}</h3><p class="note" style="margin-top:6px">This order was cancelled.</p><button class="btn mango" style="margin-top:12px" onclick="closeSheet()">Close</button>`);
+  const idx=Math.max(0,FLOW.findIndex(f=>f[0]===(o.status||'placed')));
+  sheet(`<h3>${esc(o.order_no)}</h3>
+    <div><span class="pill">${(o.items||[]).reduce((a,i)=>a+Number(i.qty),0)} items</span><span class="pill">${Pk(o.total)}</span><span class="pill">${esc((o.payment_method||'').toUpperCase())}</span></div>
+    <div class="tl">${FLOW.map((f,i)=>`
+      <div class="ev ${i<idx?'done':i===idx?'now':''}"><b>${f[1]}</b><small>${i<idx?'done':i===idx?'current status':'pending'}</small></div>`).join('')}</div>
+    ${o.status==='delivered'?'<p class="note">Delivered — salamat sa pagtangkilik! 🙏</p>':`<p class="note">Deliver to ${esc(o.area||'')}. The store will text ${esc(o.phone||'you')} with updates.</p>`}
+    <button class="btn mango" style="margin-top:10px" onclick="closeSheet()">Close</button>`);
+};
+
+/* ════════ CATEGORY LIST VIEW ════════ */
+function renderCatList(){
+  const cats=[...new Set(CAT.map(p=>p.category))];
+  $('#catList').innerHTML=cats.map(c=>{
+    const n=CAT.filter(p=>p.category===c).length;
+    const onSale=CAT.filter(p=>p.category===c&&p.sale_pct>0).length;
+    return `<button class="mrow" onclick="CUR='${c}';setView('home');renderSortbar();renderGrid()">
+      <div class="mi" style="background:${CATCOLOR[c]||'#0B5FA5'};color:#fff;font-family:var(--disp);font-weight:700">${c[0]}</div>
+      <div><b>${esc(c)}</b><small>${n} product${n===1?'':'s'}${onSale?' · '+onSale+' on sale ⚡':''}</small></div>
+      <span class="go">›</span></button>`;
+  }).join('');
+}
+
+/* ════════ OFFLINE FLUSH / PWA / BOOT ════════ */
+async function flushPending(){
+  if(!SHOP.api_url||!navigator.onLine)return;
+  const q=LS('pending')||[];if(!q.length)return;
+  const left=[];
+  for(const o of q){try{const j=await api({action:'shop_order',payload:o},true);if(!j.ok)left.push(o)}catch(e){left.push(o)}}
+  LS('pending',left);
+  if(left.length<q.length)toast((q.length-left.length)+' saved order(s) sent to the store');
+}
+addEventListener('online',flushPending);
+
+const MANIFEST={name:'NEXSHOP — Online Tindahan',short_name:'NEXSHOP',start_url:'.',display:'standalone',background_color:'#F6F4EF',theme_color:'#0B1F3A',
+  icons:[{src:'data:image/svg+xml;base64,'+btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" fill="#0B1F3A"/><path d="M96 24l60 34v68l-60 34-60-34V58z" fill="none" stroke="#00C2D1" stroke-width="9"/><path d="M96 72c14 7 21 16 21 28s-9 21-21 28c-12-7-21-16-21-28s7-21 21-28z" fill="#FFB703"/></svg>'),sizes:'192x192',type:'image/svg+xml'}]};
+const ml=document.createElement('link');ml.rel='manifest';
+ml.href=URL.createObjectURL(new Blob([JSON.stringify(MANIFEST)],{type:'application/json'}));
+document.head.appendChild(ml);
+if('serviceWorker'in navigator){
+  const SW=`const C='nexshop-v2';self.addEventListener('install',e=>self.skipWaiting());self.addEventListener('activate',e=>e.waitUntil(clients.claim()));
+  self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.open(C).then(c=>c.match(e.request).then(r=>{const f=fetch(e.request).then(res=>{c.put(e.request,res.clone());return res}).catch(()=>r);return r||f})))});`;
+  navigator.serviceWorker.register(URL.createObjectURL(new Blob([SW],{type:'text/javascript'}))).catch(()=>{});
+}
+
+(async()=>{
+  await Promise.all([loadCatalog(),loadAds(),loadVouchers(),loadReviews()]);
+  renderAds();renderFlash();renderQuick();renderSortbar();renderGrid();badges();
+  flushPending();
+})();
+</script>
+
+</body>
+</html>
