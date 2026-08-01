@@ -10,12 +10,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#F6F4EF; --card:#FFFFFF; --ink:#1B2A44; --ink-2:#5A6B84; --ink-3:#93A2B8;
+  --paper:#FAF7F0; --card:#FFFFFF; --ink:#17263F; --ink-2:#5A6B84; --ink-3:#93A2B8;
   --navy:#0B1F3A; --cyan:#00C2D1; --cyan-deep:#0891A0;
   --mango:#FFB703; --mango-deep:#E09B00; --coral:#F25C4D; --gold:#F5A623;
-  --ok:#14A36A; --line:#E4E0D6;
+  --ok:#14A36A; --line:#E7E0CF; --husk:#EFE9DB;
   --disp:'Chakra Petch',sans-serif; --body:'Inter',system-ui,sans-serif; --mono:'JetBrains Mono',monospace;
-  --r:14px; --shadow:0 2px 12px rgba(11,31,58,.09);
+  --r:16px; --shadow:0 1px 2px rgba(11,31,58,.05),0 6px 18px rgba(11,31,58,.07);
   --sh-premium:#0B6E4F; --sh-special:#7C3AED; --sh-regular:#0B5FA5;
   --sh-health:#B84A0C; --sh-grocery:#C2273B; --sh-feed:#6B4F1D;
 }
@@ -35,7 +35,13 @@ h1,h2,h3{font-family:var(--disp)}
 .wrap{max-width:1080px;margin:0 auto;padding:0 14px}
 
 /* ── top bar ── */
-#top{position:sticky;top:0;z-index:40;background:var(--navy);padding:10px 14px;display:flex;align-items:center;gap:10px}
+#top{position:sticky;top:0;z-index:40;background:var(--navy);padding:10px 14px;display:flex;align-items:center;gap:10px;box-shadow:0 1px 0 rgba(0,194,209,.35),0 8px 20px rgba(11,31,58,.18)}
+#ticker{background:#081627;color:#9FB3CE;font-family:var(--mono);font-size:10.5px;letter-spacing:.02em;overflow:hidden;white-space:nowrap;padding:6px 0;border-bottom:1px solid rgba(0,194,209,.18)}
+#ticker .tk{display:inline-block;animation:tick 46s linear infinite;padding-left:100%}
+#ticker b{color:#EAF2FB;font-weight:600}
+#ticker .up{color:var(--mango)} #ticker .sep{color:#3A506E;margin:0 10px}
+@keyframes tick{to{transform:translateX(-100%)}}
+@media(prefers-reduced-motion:reduce){#ticker .tk{animation:none;padding-left:12px}}
 #top .hex{width:30px;height:34px;flex:none;background:var(--cyan);clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);display:grid;place-items:center;font-family:var(--disp);font-weight:700;font-size:15px;color:var(--navy)}
 #top b{font-family:var(--disp);font-size:17px;letter-spacing:.09em;color:#fff;white-space:nowrap}
 #top b i{font-style:normal;color:var(--mango)}
@@ -47,6 +53,10 @@ h1,h2,h3{font-family:var(--disp)}
 #hero{background:linear-gradient(135deg,var(--navy) 0%,#12345E 70%,#0B6E77 100%);color:#fff;padding:20px 18px 22px;position:relative;overflow:hidden}
 #hero::after{content:"";position:absolute;inset:0;background-image:radial-gradient(circle at 1.5px 1.5px,rgba(255,255,255,.14) 1.5px,transparent 0);background-size:22px 22px;pointer-events:none}
 #hero .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
+#trust{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:10px 14px;background:var(--husk);border-bottom:1px solid var(--line)}
+#trust::-webkit-scrollbar{display:none}
+#trust span{flex:none;display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:99px;padding:6px 12px;font-size:11px;font-weight:600;color:var(--ink-2)}
+#trust span b{color:var(--navy)}
 #hero h1{font-size:clamp(19px,4.5vw,26px);line-height:1.15}
 #hero h1 em{font-style:normal;color:var(--mango)}
 #adband{position:relative;margin:12px 14px 4px;max-width:1052px}
@@ -98,13 +108,18 @@ h1,h2,h3{font-family:var(--disp)}
 #sortbar button.on{background:var(--navy);border-color:var(--navy);color:var(--mango)}
 
 /* ── product grid ── */
-.sechead{display:flex;align-items:baseline;justify-content:space-between;margin:8px 2px 12px}
+.sechead{display:flex;align-items:baseline;justify-content:space-between;margin:10px 2px 12px;gap:12px}
+.sechead h2{position:relative;padding-bottom:2px}
+.sechead h2::after{content:"";position:absolute;left:0;bottom:-4px;width:26px;border-bottom:3px solid var(--mango)}
 .sechead h2{font-size:16px;letter-spacing:.04em;color:var(--navy)}
 .sechead small{font-family:var(--mono);font-size:10.5px;color:var(--ink-3)}
 #grid,#wishGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 @media(min-width:560px){#grid,#wishGrid{grid-template-columns:repeat(3,1fr)}}
 @media(min-width:860px){#grid,#wishGrid{grid-template-columns:repeat(4,1fr)}}
-.prod{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);text-align:left;display:flex;flex-direction:column;position:relative;transition:transform .12s}
+.prod{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow);text-align:left;display:flex;flex-direction:column;position:relative;transition:transform .14s,box-shadow .14s;border:1px solid var(--line)}
+.prod::before{content:"";position:absolute;top:5px;left:10px;right:10px;border-top:2px dashed rgba(11,31,58,.22);z-index:2;pointer-events:none}
+.prod:active{transform:scale(.975)}
+@media(hover:hover){.prod:hover{transform:translateY(-3px);box-shadow:0 4px 8px rgba(11,31,58,.08),0 14px 30px rgba(11,31,58,.12)}}
 .prod:active{transform:scale(.975)}
 .prod .img{aspect-ratio:1;position:relative;display:grid;place-items:center;overflow:hidden}
 .prod .img img{width:100%;height:100%;object-fit:cover}
@@ -113,8 +128,8 @@ h1,h2,h3{font-family:var(--disp)}
 .heart{position:absolute;bottom:8px;right:8px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.92);display:grid;place-items:center;font-size:15px;box-shadow:0 1px 5px rgba(0,0,0,.15);z-index:2}
 .heart.on{color:var(--coral)}
 .prod .info{padding:10px 11px 12px;flex:1;display:flex;flex-direction:column}
-.prod .nm{font-weight:600;font-size:12.5px;line-height:1.3;min-height:33px}
-.prod .pr{font-family:var(--disp);font-weight:700;font-size:17.5px;color:var(--navy);margin-top:5px}
+.prod .nm{font-family:var(--disp);font-weight:600;font-size:12.5px;line-height:1.3;min-height:33px;letter-spacing:.01em}
+.prod .pr{font-family:var(--mono);font-weight:700;font-size:16.5px;color:var(--navy);margin-top:5px;letter-spacing:-.02em}
 .prod .pr .was{font-family:var(--body);font-weight:500;font-size:10.5px;color:var(--ink-3);text-decoration:line-through;margin-left:5px}
 .stars{color:var(--gold);font-size:10.5px;letter-spacing:1px}
 .prod .meta{display:flex;justify-content:space-between;align-items:center;margin-top:4px;font-size:10px;color:var(--ink-3)}
@@ -130,21 +145,25 @@ h1,h2,h3{font-family:var(--disp)}
 .empty b{display:block;font-family:var(--disp);color:var(--ink-2);font-size:15px;margin-bottom:6px}
 
 /* ── bottom nav ── */
-#nav{position:fixed;left:0;right:0;bottom:0;z-index:50;background:#fff;border-top:1.5px solid var(--line);display:flex;padding:5px 2px calc(5px + env(safe-area-inset-bottom))}
+#nav{position:fixed;left:0;right:0;bottom:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-top:1px solid var(--line);display:flex;padding:6px 2px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -6px 18px rgba(11,31,58,.06)}
 #nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;padding:5px 0;color:var(--ink-3);font-size:9.5px;font-weight:600;position:relative}
 #nav button svg{width:21px;height:21px}
 #nav button.on{color:var(--cyan-deep)}
+#nav button.on::before{content:"";position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:26px;border-top:3px solid var(--mango);border-radius:0 0 3px 3px}
 #nav .nbadge{position:absolute;top:0;left:calc(50% + 4px);min-width:15px;height:15px;border-radius:99px;background:var(--coral);color:#fff;font-size:9px;font-weight:700;display:grid;place-items:center;padding:0 3px}
 
 /* ── sheets ── */
 .veil{position:fixed;inset:0;z-index:60;background:rgba(11,31,58,.55);display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
 .veil.on{display:flex}
-.sheet{width:100%;max-width:560px;max-height:90vh;overflow-y:auto;background:var(--paper);border-radius:20px 20px 0 0;padding:18px 18px calc(24px + env(safe-area-inset-bottom));animation:up .24s cubic-bezier(.2,.9,.3,1)}
+.sheet{width:100%;max-width:560px;max-height:90vh;overflow-y:auto;background:var(--paper);border-radius:22px 22px 0 0;padding:20px 18px calc(24px + env(safe-area-inset-bottom));animation:up .24s cubic-bezier(.2,.9,.3,1);position:relative}
+.sheet::before{content:"";position:absolute;top:8px;left:50%;transform:translateX(-50%);width:42px;border-top:4px solid #D8D0BF;border-radius:99px}
 @keyframes up{from{transform:translateY(36px);opacity:0}to{transform:none;opacity:1}}
 @media(min-width:640px){.veil{align-items:center}.sheet{border-radius:20px;max-height:86vh}}
 .sheet h3{font-size:17px;color:var(--navy);margin-bottom:4px}
 .grab{width:40px;height:4px;border-radius:99px;background:#D8D2C4;margin:0 auto 14px}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:14px;padding:12px 18px;border-radius:11px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:14px;padding:12px 18px;border-radius:12px;transition:transform .1s,filter .15s}
+.btn:active{transform:scale(.97)}
+.btn.mango{font-family:var(--disp);letter-spacing:.04em;text-transform:uppercase;font-size:13px}
 .btn:active{transform:translateY(1px)}
 .btn.mango{background:var(--mango);color:#3A2A00;width:100%}
 .btn.navy{background:var(--navy);color:var(--cyan);width:100%}
@@ -258,16 +277,25 @@ footer b{color:var(--cyan)}
 <header id="top">
   <div class="hex">N</div><b>NEX<i>SHOP</i></b>
   <input id="q" placeholder="Search bigas, groceries…" autocomplete="off">
+  <button class="topbtn" onclick="openBroadcasts()">🔔<span class="badge" id="bellN" hidden></span></button>
   <button class="topbtn" onclick="setView('wish')">♡<span class="badge" id="wishN" hidden></span></button>
   <button class="topbtn" onclick="setView('cart')">🛒<span class="badge" id="cartN" hidden></span></button>
 </header>
+<div id="ticker"><span class="tk" id="tickerTk">Loading today’s prices…</span></div>
 
 <!-- ═══ HOME ═══ -->
 <div class="view on" id="v-home">
   <section id="hero">
-    <div class="eyebrow">Online Tindahan · Iligan City</div>
-    <h1>Fresh rice &amp; staples, <em>delivered to your door</em></h1>
+    <div class="eyebrow" id="heroKicker">Rice Trade Portal · Iligan City</div>
+    <h1 id="heroTitle">Order rice by the sack — <em>delivered to your store</em></h1>
+    <div id="heroCta" style="margin-top:12px"></div>
   </section>
+  <div id="trust">
+    <span>🌾 <b>Fresh-milled</b> · oldest lot ships first</span>
+    <span>🧾 <b>VAT-exempt</b> rice (NIRC 109A)</span>
+    <span>🚚 <b>Free delivery</b> over ₱1,500</span>
+    <span>💳 GCash · Maya · <b>COD</b></span>
+  </div>
   <div id="adband" hidden><div id="adtrack"></div><div id="addots"></div></div>
 
   <div id="flash" hidden>
@@ -335,15 +363,18 @@ footer b{color:var(--cyan)}
       <div><b id="accVouchers">0</b><small>Vouchers</small></div>
       <div><b id="accOrders">0</b><small>Orders</small></div>
     </div>
-    <div class="sechead" style="margin-top:6px"><h2 style="font-size:14px">Daily check-in · +5 coins</h2><small id="streakLbl"></small></div>
-    <div class="checkin" id="checkinRow"></div>
-    <button class="btn mango" id="checkinBtn" style="margin-top:10px" onclick="doCheckin()">Check in today</button>
+    <div id="tradeBox" style="margin-top:6px"></div>
+    <div class="sechead" style="margin-top:18px;display:none"><h2 style="font-size:14px">Daily check-in</h2><small id="streakLbl"></small></div>
+    <div class="checkin" id="checkinRow" style="display:none"></div>
+    <button class="btn mango" id="checkinBtn" style="margin-top:10px;display:none" onclick="doCheckin()">Check in today</button>
 
     <div class="sechead" style="margin-top:22px"><h2 style="font-size:14px">Recently viewed</h2></div>
     <div class="simrow" id="recentRow"></div>
 
     <div style="margin-top:18px">
       <button class="mrow" onclick="openVouchers()"><div class="mi">🎟️</div><div><b>My vouchers</b><small>Collect and use at checkout</small></div><span class="go">›</span></button>
+      <button class="mrow" onclick="openSubs()"><div class="mi">🔁</div><div><b>My subscriptions</b><small id="subMenuSub">Recurring rice delivery · save 3%</small></div><span class="go">›</span></button>
+      <button class="mrow" onclick="openBroadcasts()"><div class="mi">🔔</div><div><b>Store updates</b><small id="followMenuSub">Follow for fresh-batch & deal alerts</small></div><span class="go">›</span></button>
       <button class="mrow" onclick="setView('orders')"><div class="mi">📦</div><div><b>My orders</b><small>Track, cancel, buy again, review</small></div><span class="go">›</span></button>
       <button class="mrow" onclick="chatStore()"><div class="mi">💬</div><div><b>Chat with the store</b><small>Questions about stock, delivery, wholesale</small></div><span class="go">›</span></button>
       <button class="mrow" onclick="trackSheet()"><div class="mi">🔎</div><div><b>Track any order</b><small>By order number and phone</small></div><span class="go">›</span></button>
@@ -458,9 +489,149 @@ let WISH=LS('wish')||[];
 let COINS=LS('coins')||{bal:0,streak:0,last:''};
 let MYVOUCH=LS('myvouch')||[];
 let CK=LS('cust')||{};
+/* ════════════════════════════════════════════════════════════════
+   NEXSHOP B2B — retailer / distributor accounts, tier pricing,
+   registered delivery. A trade portal for rice, not a consumer app.
+   ════════════════════════════════════════════════════════════════ */
+let ACCT = LS('acct') || null;   // {id,biz,type,name,phone,tier,tierName,status,addresses:[],code}
+const TIERLABEL = {T1:'Retail', T2:'Wholesale', T3:'Distributor', T4:'Institutional'};
+const TIEROFF   = {T1:0, T2:4, T3:7.5, T4:5};    // fallback % off if backend doesn't send tiers
+const MINSACKS  = {T1:1, T2:20, T3:100, T4:50};
+
+const isTrade = () => ACCT && ACCT.status === 'approved';
+const acctTier = () => (ACCT && ACCT.tier) || 'T1';
+const acctOff  = () => {
+  if (!isTrade()) return 0;
+  const t = (TIERS_SRV || []).find(x => x.id === ACCT.tier);
+  return t ? +t.pct : (TIEROFF[ACCT.tier] || 0);
+};
+let TIERS_SRV = [];   // price tiers pulled from the store, if available
+
+/* tier-aware unit price: list → sale → trade tier → volume break */
+function tprice(p, qty){
+  qty = qty || 1;
+  let unit = price(p);                       // existing sale-aware base
+  const off = acctOff();
+  if (off) unit = Math.round(p.price * (100 - off)) / 100;
+  // volume breaks from the store (optional)
+  const br = (BREAKS_SRV || []).filter(b => qty >= b.qty).sort((a,b) => b.qty - a.qty)[0];
+  if (br && isTrade()){
+    const bu = Math.round(p.price * (100 - br.pct)) / 100;
+    if (bu < unit) unit = bu;
+  }
+  return unit;
+}
+let BREAKS_SRV = [];
+
+/* ── registration ── */
+window.openRegister = () => {
+  sheet(`<h3>Register a trade account</h3>
+    <p class="note" style="margin-top:2px">For rice retailers, sari-sari stores, and distributors. Once the store approves you, you'll see your wholesale price and order for delivery.</p>
+    <label>Business name</label><input id="rgBiz" placeholder="e.g. Aling Nena Rice Store">
+    <label>Business type</label>
+    <div class="varrow" id="rgType">
+      <button class="on" data-t="retailer">Retailer / sari-sari</button>
+      <button data-t="distributor">Distributor</button>
+      <button data-t="institution">Canteen / institution</button>
+    </div>
+    <label>Owner / contact name</label><input id="rgName" placeholder="Juan dela Cruz">
+    <label>Mobile number</label><input id="rgPhone" inputmode="tel" placeholder="09xx xxx xxxx">
+    <label>Store address</label><textarea id="rgAddr" rows="2" placeholder="House/Stall no., street, barangay"></textarea>
+    <label>Barangay / area</label><select id="rgArea">${SHOP.areas.map(a=>`<option>${a}</option>`).join('')}</select>
+    <label>DTI / Business permit no. (optional)</label><input id="rgPermit" placeholder="For faster approval">
+    <button class="btn mango" style="margin-top:14px" onclick="submitRegister()">Submit for approval</button>
+    <p class="note">Already registered? <a href="#" onclick="openLogin();return false" style="color:var(--cyan-deep);font-weight:600">Log in with your phone</a></p>`);
+  $$('#rgType button').forEach(b => b.onclick = () => { $$('#rgType button').forEach(x=>x.classList.remove('on')); b.classList.add('on'); });
+};
+window.submitRegister = async () => {
+  const biz = $('#rgBiz').value.trim(), name = $('#rgName').value.trim(), phone = $('#rgPhone').value.trim();
+  const type = ($('#rgType button.on')||{}).dataset ? $('#rgType button.on').dataset.t : 'retailer';
+  if (biz.length < 2) return toast('Enter your business name');
+  if (!/^0?9\d{9}$/.test(phone.replace(/[\s-]/g,''))) return toast('Check the mobile number (09xx…)');
+  const acct = {id:'', biz, type, name, phone, area:$('#rgArea').value, addr:$('#rgAddr').value.trim(),
+    permit:$('#rgPermit').value.trim(), tier:'T1', tierName:'Retail', status:'pending',
+    addresses:[{label:'Main store', area:$('#rgArea').value, addr:$('#rgAddr').value.trim(), primary:true}],
+    code:''};
+  if (SHOP.api_url){
+    try{
+      const j = await api({action:'shop_register', payload:acct}, true);
+      if (!j.ok) return toast(j.error || 'Could not submit — try again.');
+      acct.id = j.id || ''; acct.code = j.code || '';
+      if (j.status) acct.status = j.status;
+      if (j.tier){ acct.tier = j.tier; acct.tierName = TIERLABEL[j.tier] || j.tier; }
+    }catch(e){ /* offline: keep pending locally */ }
+  }
+  ACCT = acct; LS('acct', ACCT);
+  closeSheet(); badges(); renderAcct(); renderGrid();
+  sheet(`<h3>Registration received 🎉</h3>
+    <p class="note" style="margin-top:4px">Salamat, ${esc(name.split(' ')[0]||biz)}! Your trade account is <b>pending approval</b>.
+    ${acct.code?`Your account code is <b class="mono">${esc(acct.code)}</b> — keep it to log in on another device.`:''}
+    The store will review your details and set your wholesale tier. You can browse now; trade prices appear once approved.</p>
+    <button class="btn navy" style="margin-top:12px" onclick="closeSheet();setView('home')">Start browsing</button>`);
+};
+
+/* ── login (phone + code) ── */
+window.openLogin = () => {
+  sheet(`<h3>Log in to your trade account</h3>
+    <label>Mobile number</label><input id="lgPhone" inputmode="tel" value="${esc(ACCT?ACCT.phone:'')}" placeholder="09xx xxx xxxx">
+    <label>Account code</label><input id="lgCode" class="mono" placeholder="From your approval SMS">
+    <button class="btn mango" style="margin-top:14px" onclick="submitLogin()">Log in</button>
+    <p class="note">New here? <a href="#" onclick="openRegister();return false" style="color:var(--cyan-deep);font-weight:600">Register a trade account</a></p>`);
+};
+window.submitLogin = async () => {
+  const phone = $('#lgPhone').value.trim(), code = $('#lgCode').value.trim();
+  if (!phone || !code) return toast('Enter your number and account code');
+  if (SHOP.api_url){
+    try{
+      const j = await api({action:'shop_account', phone, code});
+      if (!j.ok || !j.account) return toast(j.error || 'Account not found — check your code.');
+      ACCT = {...j.account, addresses: j.account.addresses || [{label:'Main store', area:j.account.area, addr:j.account.addr, primary:true}]};
+      ACCT.tierName = TIERLABEL[ACCT.tier] || ACCT.tier;
+      LS('acct', ACCT);
+      closeSheet(); badges(); renderAcct(); renderGrid();
+      return toast('Welcome back, ' + (ACCT.biz||'') + (isTrade()?' · '+ACCT.tierName+' pricing':''));
+    }catch(e){ return toast('Could not reach the store — try again later.'); }
+  }
+  toast('Connect to the store to log in.');
+};
+window.logoutAcct = () => {
+  ACCT = null; localStorage.removeItem('nexshop.acct');
+  badges(); renderAcct(); renderGrid(); toast('Logged out');
+};
+
+/* ── refresh account status/tier from the store ── */
+async function syncAccount(){
+  if (!ACCT || !SHOP.api_url || !ACCT.phone) return;
+  try{
+    const j = await api({action:'shop_account', phone:ACCT.phone, code:ACCT.code||''});
+    if (j.ok && j.account){
+      const was = ACCT.status;
+      ACCT = {...ACCT, ...j.account, tierName: TIERLABEL[j.account.tier] || j.account.tier};
+      LS('acct', ACCT);
+      if (was === 'pending' && ACCT.status === 'approved')
+        toast('✓ Your account is approved — ' + ACCT.tierName + ' pricing is now live');
+    }
+  }catch(e){}
+}
+async function loadTiers(){
+  if (!SHOP.api_url) return;
+  try{
+    const j = await api({action:'shop_tiers'});
+    if (j.ok){ TIERS_SRV = j.tiers || []; BREAKS_SRV = j.breaks || []; }
+  }catch(e){}
+}
+
+/* ── minimum-order rule for the tier ── */
+function tierMin(){
+  const t = (TIERS_SRV||[]).find(x => x.id === acctTier());
+  return isTrade() ? (t ? +t.min : (MINSACKS[acctTier()]||1)) : 1;
+}
+function cartSacks(){ return selLines().reduce((a,l) => a + l.qty, 0); }
+
 let PAY=LS('paym')||'cod', SHIPMODE='standard', USEDVOUCH=null, USECOINS=false;
 const saveCart=()=>LS('cart',CART);
 const price=p=>p.sale_pct?Math.round(p.price*(100-p.sale_pct))/100:p.price;
+const listPrice=p=>p.price;
 const saleEnds=()=>{const d=new Date();d.setHours(24,0,0,0);return d};   // midnight flash reset
 
 /* ── Backend (NEXRICE) ── */
@@ -544,7 +715,7 @@ function renderFlash(){
     const soldPct=Math.min(96,Math.round(p.sold/(p.sold+p.stock)*100));
     return `<button class="fcard" onclick="openProduct('${p.id}')">
       <div class="fi">${imgFor(p,150)}<span class="off">-${p.sale_pct}%</span></div>
-      <div class="fb"><div class="fp">${Pk(price(p))}</div><div class="fo">${Pk(p.price)}</div>
+      <div class="fb"><div class="fp">${Pk(tprice(p,1))}</div><div class="fo">${Pk(p.price)}</div>
       <div class="fbar"><i style="width:${soldPct}%"></i><span>${soldPct}% CLAIMED</span></div></div></button>`;
   }).join('');
   clearInterval(FT);
@@ -573,7 +744,7 @@ function renderSortbar(){
 
 /* ── Grid ── */
 function prodCard(p){
-  const out=p.stock<=0,pr=price(p);
+  const out=p.stock<=0,pr=tprice(p,1);
   const w=WISH.includes(p.id);
   return `<button class="prod ${out?'out':''}" data-id="${p.id}">
     <div class="img">${imgFor(p,220)}
@@ -584,7 +755,7 @@ function prodCard(p){
     </div>
     <div class="info">
       <div class="nm">${esc(p.name)}</div>
-      <div class="pr">${Pk(pr)}${p.sale_pct?`<span class="was">${Pk(p.price)}</span>`:''}</div>
+      <div class="pr">${Pk(tprice(p,1))}${(p.sale_pct||acctOff())?`<span class="was">${Pk(p.price)}</span>`:''}</div>${isTrade()?`<div style="font-size:9.5px;color:var(--cyan-deep);font-weight:700;letter-spacing:.04em">${ACCT.tierName.toUpperCase()} PRICE</div>`:''}
       <div class="stars">${stars(p.rating)} <span style="color:var(--ink-3);letter-spacing:0">(${p.ratings||0})</span></div>
       <div class="meta"><span>${p.stock} left</span><span>${(p.sold||0).toLocaleString()} sold</span></div>
     </div>
@@ -640,6 +811,29 @@ function renderWish(){
   $('#wishGrid').innerHTML=list.map(prodCard).join('')||'<div class="empty"><b>Wala pang laman</b>Tap the ♡ on any product to save it here.</div>';
   wireCards('#wishGrid');
 }
+
+function renderTicker(){
+  const el=document.getElementById('tickerTk'); if(!el||!CAT.length)return;
+  const items=CAT.filter(p=>p.kg>=5&&p.stock>0).slice(0,10).map(p=>{
+    const kg=(tprice(p,1)/p.kg);
+    return `<b>${esc(p.name.replace(/\s*\d+kg.*/i,'').slice(0,18))}</b> ₱${kg.toFixed(2)}/kg${p.sale_pct?' <span class="up">▼'+p.sale_pct+'%</span>':''}`;
+  }).join('<span class="sep">◆</span>');
+  const head=`<b>TODAY’S MILL PRICES</b><span class="sep">◆</span>`;
+  el.innerHTML=head+items+'<span class="sep">◆</span>'+head+items;
+}
+function renderHero(){
+  const cta=$('#heroCta'); if(!cta)return;
+  if(isTrade()){
+    $('#heroKicker').textContent=ACCT.tierName.toUpperCase()+' ACCOUNT · '+(ACCT.biz||'');
+    $('#heroTitle').innerHTML='Your wholesale prices are <em>live</em>';
+    cta.innerHTML='';
+  }else if(ACCT&&ACCT.status==='pending'){
+    $('#heroKicker').textContent='TRADE ACCOUNT · PENDING';
+    cta.innerHTML='<span class="pill" style="background:rgba(255,255,255,.15);color:#fff">⏳ Approval in progress — browsing at retail price</span>';
+  }else{
+    cta.innerHTML='<button class="btn mango" style="width:auto;padding:10px 18px" onclick="openRegister()">Register a trade account</button> <button class="btn ghost" style="width:auto;padding:10px 18px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#fff" onclick="openLogin()">Log in</button>';
+  }
+}
 function badges(){
   const n=CART.reduce((a,l)=>a+l.qty,0);
   ['#cartN','#navCartN'].forEach(id=>{const el=$(id);el.hidden=!n;el.textContent=n});
@@ -653,7 +847,7 @@ function markViewed(id){
 function renderRecent(){
   const r=(LS('recent')||[]).map(id=>CAT.find(p=>p.id===id)).filter(Boolean);
   $('#recentRow').innerHTML=r.length?r.map(p=>`<button class="fcard" onclick="openProduct('${p.id}')">
-    <div class="fi">${imgFor(p,150)}</div><div class="fb"><div class="fp" style="color:var(--navy)">${Pk(price(p))}</div>
+    <div class="fi">${imgFor(p,150)}</div><div class="fb"><div class="fp" style="color:var(--navy)">${Pk(tprice(p,1))}</div>
     <div style="font-size:10px;color:var(--ink-2);line-height:1.3">${esc(p.name.slice(0,26))}</div></div></button>`).join('')
     :'<div class="note">Products you open will appear here.</div>';
 }
@@ -667,17 +861,201 @@ function openProduct(id){
   drawPD(p);
 }
 window.openProduct=openProduct;
+/* ════════════════════════════════════════════════════════════════
+   NEXSHOP — Lazada-parity features, rice-focused, NEXARCH-styled
+   · Bundles / frequently bought together
+   · Product Q&A + richer live chat
+   · Subscribe & save (recurring rice delivery)
+   · Store follow + broadcasts / notifications
+   All original code — the shopping *patterns*, not Lazada's design.
+   ════════════════════════════════════════════════════════════════ */
+
+/* ── local state ── */
+let QNA   = LS('qna')   || {};        // {sku:[{q,a,name,ts}]}
+let SUBS  = LS('subs')  || [];        // recurring orders
+let FOLLOW= LS('follow')|| false;
+let SEEN  = LS('bcseen')|| 0;         // last broadcast timestamp seen
+let BROADCASTS = [
+  {ts:Date.now()-6*36e5, title:'Bagong giling this week', body:'Fresh Dinorado and Sinandomeng milled today — oldest lots ship first.', link:'#Premium'},
+  {ts:Date.now()-2*864e5, title:'Suki bundle is back', body:'Rice + oil + sugar starter bundle, save vs buying apart.', link:''}
+];
+
+/* ── BUNDLES (frequently bought together) ────────────────────────── */
+/* A bundle is 2–3 SKUs sold together at a small saving. Rice-centric:
+   a rice sack anchors each bundle with common pantry partners.        */
+function bundlesFor(p){
+  // build sensible pairings from the live catalog around this product
+  const rice = CAT.find(x=>x.category==='Premium'||x.category==='Regular');
+  const oil  = CAT.find(x=>/oil/i.test(x.name));
+  const sugar= CAT.find(x=>/sugar/i.test(x.name));
+  const salt = CAT.find(x=>/salt/i.test(x.name));
+  const coffee=CAT.find(x=>/coffee/i.test(x.name));
+  const sets=[];
+  const mk=(name,items,pct)=>{
+    const list=items.filter(Boolean); if(list.length<2)return;
+    const base=list.reduce((a,x)=>a+tprice(x,1),0);
+    sets.push({name,items:list,base,save:Math.round(base*pct/100),price:Math.round(base*(100-pct))/100,pct});
+  };
+  // if current product is rice, pair with pantry; else pair with rice
+  const anchor = /Premium|Regular|Special|Health/.test(p.category)?p:(rice||p);
+  mk('Pantry starter', [anchor, oil, sugar], 6);
+  mk('Kape break combo', [anchor, coffee, sugar], 5);
+  mk('Ulam-ready set', [anchor, oil, salt], 5);
+  return sets.filter(s=>s.items.some(x=>x.id===p.id)||s.items[0].id===(rice||p).id).slice(0,2);
+}
+function bundleHtml(p){
+  const bs=bundlesFor(p); if(!bs.length)return '';
+  return `<div class="sechead" style="margin-top:18px"><h2 style="font-size:14px">Frequently bought together</h2></div>`+
+    bs.map((b,i)=>`<div style="background:#fff;border-radius:13px;padding:12px;box-shadow:var(--shadow);margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:8px;overflow-x:auto;padding-bottom:6px">
+        ${b.items.map((x,j)=>`<div style="text-align:center;flex:none">
+          <div style="width:56px;height:56px;border-radius:10px;overflow:hidden;display:grid;place-items:center">${imgFor(x,120)}</div>
+          <div style="font-size:9px;color:var(--ink-2);width:60px;line-height:1.2;margin-top:3px">${esc(x.name.slice(0,20))}</div></div>
+          ${j<b.items.length-1?'<b style="color:var(--ink-3);flex:none">+</b>':''}`).join('')}
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:6px">
+        <div><b style="font-family:var(--disp);font-size:13px">${esc(b.name)}</b>
+          <div style="font-size:11px;color:var(--ink-2)"><b style="color:#C2273B;font-family:var(--disp);font-size:15px">${Pk(b.price)}</b>
+          <span style="text-decoration:line-through;font-size:10px;color:var(--ink-3);margin-left:4px">${Pk(b.base)}</span>
+          <span class="pill" style="background:#E2F5EC;color:#0B6E4F;margin-left:4px">save ${Pk(b.save)}</span></div></div>
+        <button class="btn mango sm" style="width:auto" onclick="addBundle(${i},'${p.id}')">Add all</button>
+      </div></div>`).join('');
+}
+window.addBundle=(i,pid)=>{
+  const p=CAT.find(x=>x.id===pid), bs=bundlesFor(p), b=bs[i]; if(!b)return;
+  let ok=0; b.items.forEach(x=>{ if(x.stock>0){ addCart(x.id,1); ok++; } });
+  if(ok)toast('🎁 Bundle added — '+ok+' items'); else toast('Some items are out of stock');
+};
+
+/* ── PRODUCT Q&A ─────────────────────────────────────────────────── */
+function qnaHtml(p){
+  const list=(QNA[p.id]||[]);
+  return `<div class="sechead" style="margin-top:18px"><h2 style="font-size:14px">Questions &amp; answers</h2>
+      <button class="btn sm ghost" onclick="askQuestion('${p.id}')">Ask a question</button></div>
+    ${list.length?list.slice(0,4).map(x=>`<div class="review">
+      <div class="rh"><b>Q · ${esc(x.name||'Buyer')}</b><span style="font-size:10px;color:var(--ink-3)">${timeAgo(x.ts)}</span></div>
+      <p>${esc(x.q)}</p>
+      ${x.a?`<div style="margin-top:6px;padding-left:10px;border-left:2px solid var(--cyan)"><b style="font-size:11px;color:var(--cyan-deep)">Store</b>
+        <p style="margin-top:2px">${esc(x.a)}</p></div>`:'<p style="font-size:11px;color:var(--ink-3);margin-top:4px">Awaiting store reply…</p>'}
+    </div>`).join(''):'<p class="note">No questions yet. Ask about stock, milling date, delivery, or wholesale.</p>'}`;
+}
+window.askQuestion=id=>{
+  sheet(`<h3>Ask about this rice</h3>
+    <p class="note" style="margin-top:2px">Common: freshness/milling date, sack weight, same-day delivery, wholesale price.</p>
+    <label>Your name</label><input id="qName" value="${esc((ACCT&&ACCT.name)||CK.name||'')}">
+    <label>Your question</label><textarea id="qText" rows="3" placeholder="e.g. Kailan giniling? May 25kg ba?"></textarea>
+    <button class="btn mango" style="margin-top:12px" onclick="postQuestion('${id}')">Post question</button>`);
+};
+window.postQuestion=async id=>{
+  const q=$('#qText').value.trim(), name=$('#qName').value.trim()||'Buyer';
+  if(!q)return toast('Type your question');
+  const entry={q,a:'',name,ts:Date.now()};
+  if(SHOP.api_url){ try{ await api({action:'shop_qna',payload:{sku:id,name,q}},true); }catch(e){} }
+  (QNA[id]=QNA[id]||[]).unshift(entry); LS('qna',QNA);
+  toast('Question posted — the store will reply'); openProduct(id);
+};
+async function loadQna(){
+  if(!SHOP.api_url)return;
+  try{ const j=await api({action:'shop_qna_list'});
+    if(j.ok&&j.qna){ QNA={}; j.qna.forEach(r=>{(QNA[r.sku]=QNA[r.sku]||[]).push({q:r.q,a:r.a,name:r.name,ts:+r.ts||Date.now()})}); } }catch(e){}
+}
+
+/* ── SUBSCRIBE & SAVE (recurring rice delivery) ──────────────────── */
+const FREQ={weekly:['Every week',7],biweekly:['Every 2 weeks',14],monthly:['Every month',30]};
+function subCta(p){
+  return `<button class="btn ghost" style="width:100%;margin-top:8px;border-color:var(--cyan);color:var(--cyan-deep)" onclick="subSetup('${p.id}')">
+    🔁 Subscribe &amp; save 3% — never run out of rice</button>`;
+}
+window.subSetup=id=>{
+  const p=CAT.find(x=>x.id===id);
+  sheet(`<h3>Subscribe &amp; save</h3>
+    <p class="note" style="margin-top:2px">We deliver ${esc(p.name)} on a schedule and take 3% off every drop. Pause or cancel anytime.</p>
+    <label>How many sacks each delivery</label>
+    <div class="qty" style="margin:6px 0"><button onclick="subQ(-1)">−</button><b id="subN">1</b><button onclick="subQ(1)">+</button></div>
+    <label>How often</label>
+    <div class="varrow" id="subFreq">${Object.entries(FREQ).map(([k,v],i)=>`<button class="${i===2?'on':''}" data-f="${k}">${v[0]}</button>`).join('')}</div>
+    <label>First delivery</label><input id="subDate" type="date" value="${new Date(Date.now()+864e5*3).toISOString().slice(0,10)}">
+    <div class="tot grand" style="margin-top:12px"><span>Per delivery</span><span id="subTot">${Pk(tprice(p,1)*0.97)}</span></div>
+    <button class="btn mango" style="margin-top:12px" onclick="subSave('${id}')">Start subscription</button>`);
+  window._subQ=1;
+  $$('#subFreq button').forEach(b=>b.onclick=()=>{$$('#subFreq button').forEach(x=>x.classList.remove('on'));b.classList.add('on');});
+  subTot(id);
+};
+window.subQ=d=>{const p=window._pd||CAT[0];window._subQ=Math.max(1,(window._subQ||1)+d);$('#subN').textContent=window._subQ;subTot(p.id)};
+function subTot(id){const p=CAT.find(x=>x.id===id);$('#subTot').textContent=Pk(tprice(p,window._subQ||1)*0.97*(window._subQ||1))}
+window.subSave=async id=>{
+  const p=CAT.find(x=>x.id===id);
+  const f=($('#subFreq button.on')||{}).dataset?$('#subFreq button.on').dataset.f:'monthly';
+  const sub={id:uid(),sku:id,name:p.name,qty:window._subQ||1,freq:f,next:$('#subDate').value,
+    unit:Math.round(tprice(p,1)*0.97*100)/100,active:true,created:Date.now()};
+  if(SHOP.api_url){ try{ await api({action:'shop_subscribe',payload:sub},true); }catch(e){} }
+  SUBS.unshift(sub); LS('subs',SUBS);
+  closeSheet(); renderAcct();
+  toast('🔁 Subscription started — '+FREQ[f][0].toLowerCase());
+};
+function renderSubs(){
+  const host=$('#subList'); if(!host)return;
+  host.innerHTML=SUBS.length?SUBS.map(s=>`<div class="cline">
+    <div class="th">${imgFor(CAT.find(x=>x.id===s.sku)||{category:'Premium',name:s.name},90)}</div>
+    <div class="g"><b>${esc(s.name)}</b><div style="font-size:11px;color:var(--ink-2)">${s.qty} sack(s) · ${FREQ[s.freq][0].toLowerCase()} · next ${s.next}</div>
+      <div class="p" style="font-size:13px">${Pk(s.unit*s.qty)} <span style="font-size:9px;color:var(--ok)">3% off</span></div></div>
+    <button class="btn sm ghost" onclick="subToggle('${s.id}')">${s.active?'Pause':'Resume'}</button>
+    <button class="btn sm ghost" style="color:var(--coral)" onclick="subCancel('${s.id}')">✕</button>
+  </div>`).join(''):'<p class="note">No subscriptions yet. On any rice, tap “Subscribe & save”.</p>';
+}
+window.subToggle=id=>{const s=SUBS.find(x=>x.id===id);s.active=!s.active;LS('subs',SUBS);renderSubs();toast(s.active?'Resumed':'Paused')};
+window.subCancel=id=>{SUBS=SUBS.filter(x=>x.id!==id);LS('subs',SUBS);renderSubs();toast('Subscription cancelled')};
+window.openSubs=()=>{sheet(`<h3>My rice subscriptions</h3><div id="subList" style="margin-top:8px"></div>`);renderSubs();};
+
+/* ── STORE FOLLOW + BROADCASTS ───────────────────────────────────── */
+async function loadBroadcasts(){
+  if(!SHOP.api_url)return;
+  try{ const j=await api({action:'shop_broadcasts'});
+    if(j.ok&&j.broadcasts&&j.broadcasts.length)BROADCASTS=j.broadcasts.map(b=>({...b,ts:+b.ts||Date.now()})); }catch(e){}
+}
+function unseenCount(){ return FOLLOW?BROADCASTS.filter(b=>b.ts>SEEN).length:0; }
+function paintBell(){
+  const el=$('#bellN'); if(!el)return;
+  const n=unseenCount(); el.hidden=!n; el.textContent=n;
+}
+window.toggleFollow=()=>{
+  FOLLOW=!FOLLOW; LS('follow',FOLLOW);
+  if(SHOP.api_url&&(ACCT||CK.phone)){ try{ api({action:'shop_follow',payload:{phone:(ACCT&&ACCT.phone)||CK.phone||'',on:FOLLOW}},true); }catch(e){} }
+  renderAcct(); paintBell(); renderHero&&renderHero();
+  toast(FOLLOW?'🔔 Following — you\u2019ll get store updates':'Unfollowed');
+};
+window.openBroadcasts=()=>{
+  SEEN=Date.now(); LS('bcseen',SEEN); paintBell();
+  sheet(`<h3>Store updates</h3>
+    ${FOLLOW?'':'<div class="note" style="color:var(--cyan-deep)">Follow the store to get these as notifications.</div>'}
+    ${BROADCASTS.sort((a,b)=>b.ts-a.ts).map(b=>`<div style="background:#fff;border-radius:12px;padding:12px;box-shadow:var(--shadow);margin-bottom:9px">
+      <div style="display:flex;justify-content:space-between"><b style="font-family:var(--disp);font-size:13px">${esc(b.title)}</b>
+        <span style="font-size:10px;color:var(--ink-3)">${timeAgo(b.ts)}</span></div>
+      <p style="font-size:12.5px;color:var(--ink-2);margin-top:3px;line-height:1.5">${esc(b.body)}</p>
+      ${b.link?`<button class="btn sm ghost" style="margin-top:6px" onclick="closeSheet();bcGo('${esc(b.link)}')">View</button>`:''}
+    </div>`).join('')}
+    <button class="btn ${FOLLOW?'ghost':'mango'}" style="margin-top:6px" onclick="toggleFollow()">${FOLLOW?'Unfollow store':'🔔 Follow store'}</button>`);
+};
+window.bcGo=link=>{ if(link&&link.startsWith('#')){const c=link.slice(1);CUR=['All',...new Set(CAT.map(p=>p.category))].includes(c)?c:'All';setView('home');renderSortbar();renderGrid();} };
+
+/* ── helpers ── */
+function timeAgo(ts){const s=(Date.now()-ts)/1000;
+  if(s<3600)return Math.max(1,Math.round(s/60))+'m ago';
+  if(s<86400)return Math.round(s/3600)+'h ago';
+  return Math.round(s/86400)+'d ago';}
+
 function drawPD(p){
   const vars=variantsOf(p);
   const revs=REVIEWS[p.id]||[];
   const sim=sortList(CAT.filter(x=>x.category===p.category&&x.id!==p.id)).slice(0,6);
-  const w=WISH.includes(p.id),pr=price(p);
+  const w=WISH.includes(p.id),pr=tprice(p,PDQ||1);
   sheet(`<div id="pd">
     <div class="big">${imgFor(p,420)}
       <span class="heart ${w?'on':''}" style="bottom:10px;right:10px;width:36px;height:36px;font-size:18px" onclick="toggleWish('${p.id}');drawPDKeep('${p.id}')">${w?'♥':'♡'}</span></div>
     <h3 style="margin-top:14px">${esc(p.name)}</h3>
     <div class="stars" style="font-size:12px">${stars(p.rating)} <span style="color:var(--ink-2);letter-spacing:0">${(p.rating||0).toFixed(1)} · ${p.ratings||revs.length} rating${(p.ratings||revs.length)===1?'':'s'} · ${(p.sold||0).toLocaleString()} sold</span></div>
-    <div class="prow"><span class="p">${Pk(pr)}</span>${p.sale_pct?`<span class="was">${Pk(p.price)}</span><span class="pill" style="background:#FBE5E8;color:#B01E30">FLASH -${p.sale_pct}%</span>`:''}</div>
+    <div class="prow"><span class="p">${Pk(pr)}</span>${(p.sale_pct||acctOff())?`<span class="was">${Pk(p.price)}</span>`:''}${isTrade()?`<span class="pill" style="background:#EAF7F8;color:var(--cyan-deep)">${esc(ACCT.tierName)} −${acctOff()}%</span>`:p.sale_pct?`<span class="pill" style="background:#FBE5E8;color:#B01E30">FLASH -${p.sale_pct}%</span>`:''}</div>
+    ${!isTrade()?`<div class="note" style="margin-top:0;color:var(--cyan-deep)">🔒 <a href="#" onclick="openRegister();return false" style="color:var(--cyan-deep);font-weight:700">Register a trade account</a> to see wholesale &amp; distributor pricing.</div>`:tierMin()>1?`<div class="note" style="margin-top:0">Minimum ${tierMin()} sacks per order for ${esc(ACCT.tierName)}.</div>`:''}
     <div><span class="pill">${esc(p.category)}</span><span class="pill">${p.stock} in stock</span>${p.kg?`<span class="pill">${p.kg}kg / ${esc(p.unit)}</span>`:''}</div>
     ${vars.length>1?`<label style="margin-top:12px">Variation</label><div class="varrow">${vars.map(v=>
       `<button class="${v.id===p.id?'on':''}" onclick="openProduct('${v.id}')">${esc(v.name.replace(/^Sinandomeng( Premium)?\s*/,'')||v.name)} · ${Pk(price(v))}</button>`).join('')}</div>`:''}
@@ -692,23 +1070,27 @@ function drawPD(p){
       <button class="btn sm ghost" onclick="writeReview('${p.id}')">Write a review</button></div>
     ${revs.length?revs.map(r=>`<div class="review"><div class="rh"><b>${esc(r[0])}</b><span class="stars">${stars(r[1])}</span></div><p>${esc(r[2])}</p></div>`).join('')
       :'<p class="note">No reviews yet — be the first after your order arrives.</p>'}
+    ${/Premium|Regular|Special|Health/.test(p.category)?subCta(p):''}
+    ${bundleHtml(p)}
+    ${qnaHtml(p)}
     ${sim.length?`<div class="sechead" style="margin-top:16px"><h2 style="font-size:14px">You may also like</h2></div>
       <div class="simrow">${sim.map(x=>`<button class="fcard" onclick="openProduct('${x.id}')">
         <div class="fi">${imgFor(x,150)}${x.sale_pct?`<span class="off">-${x.sale_pct}%</span>`:''}</div>
-        <div class="fb"><div class="fp" style="color:var(--navy)">${Pk(price(x))}</div>
+        <div class="fb"><div class="fp" style="color:var(--navy)">${Pk(tprice(x,1))}</div>
         <div style="font-size:10px;color:var(--ink-2);line-height:1.3">${esc(x.name.slice(0,26))}</div></div></button>`).join('')}</div>`:''}
   </div>`);
   window._pd=p;
 }
 window.drawPDKeep=id=>{const p=CAT.find(x=>x.id===id);if(p)drawPD(p)};
 window.pdq=d=>{const p=window._pd;PDQ=Math.max(1,Math.min(p.stock,PDQ+d));
-  $('#pdN').textContent=PDQ;$('#pdSub').textContent='= '+Pk(PDQ*price(p))};
+  $('#pdN').textContent=PDQ;$('#pdSub').textContent='= '+Pk(PDQ*tprice(p,PDQ))};
 window.addCart=(id,q)=>{
   const p=CAT.find(x=>x.id===id);if(!p||p.stock<=0)return toast('Out of stock');
   const l=CART.find(x=>x.id===id);
   const want=(l?l.qty:0)+(q||1);
   if(want>p.stock)return toast('Only '+p.stock+' left');
-  if(l)l.qty=want;else CART.push({id:p.id,sku:p.sku,name:p.name,price:price(p),listPrice:p.price,qty:q||1,kg:p.kg,unit:p.unit,category:p.category,sel:true});
+  const q2=(l?l.qty:0)+(q||1);
+  if(l)l.qty=want;else CART.push({id:p.id,sku:p.sku,name:p.name,price:tprice(p,q2),listPrice:p.price,qty:q||1,kg:p.kg,unit:p.unit,category:p.category,sel:true});
   saveCart();badges();toast('✓ '+p.name+' added');
   if(navigator.vibrate)navigator.vibrate(35);
 };
@@ -802,7 +1184,8 @@ function renderCart(){
       ${t.saved>0?`<div class="tot"><span>You save</span><b class="disc">${P(t.saved)}</b></div>`:''}
       <div class="tot grand"><span>Total</span><span>${P(t.total)}</span></div>
     </div>
-    <button class="btn coral" style="margin-top:12px" onclick="openCheckout()" ${selLines().length?'':'disabled'}>Checkout (${selLines().length}) →</button>`;
+    ${isTrade()&&cartSacks()<tierMin()?`<div class="note" style="color:var(--coral)">Minimum ${tierMin()} sacks per order for ${esc(ACCT.tierName)} — you have ${cartSacks()}.</div>`:''}
+    <button class="btn coral" style="margin-top:12px" onclick="openCheckout()" ${selLines().length&&!(isTrade()&&cartSacks()<tierMin())?'':'disabled'}>Checkout (${selLines().length}) →</button>`;
   badges();
 }
 window.cartSel=(i,v)=>{CART[i].sel=v;saveCart();renderCart()};
@@ -870,22 +1253,84 @@ window.doCheckin=()=>{
   renderAcct();
 };
 function renderAcct(){
-  $('#accName').textContent=CK.name||'Guest ka pa';
-  $('#accSub').textContent=CK.phone?CK.phone+(CK.area?' · '+CK.area:''):'Set up your delivery details';
-  $('#accAv').textContent=(CK.name||'?').trim()[0].toUpperCase();
+  if(ACCT){
+    $('#accName').textContent=ACCT.biz||ACCT.name||'Trade account';
+    const st=ACCT.status==='approved'?ACCT.tierName+' · approved':ACCT.status==='pending'?'Pending approval':'Rejected';
+    $('#accSub').textContent=(ACCT.type?ACCT.type[0].toUpperCase()+ACCT.type.slice(1):'')+' · '+st;
+    $('#accAv').textContent=(ACCT.biz||ACCT.name||'?').trim()[0].toUpperCase();
+  }else{
+    $('#accName').textContent='Guest — browsing retail';
+    $('#accSub').textContent='Register your store for wholesale pricing';
+    $('#accAv').textContent='?';
+  }
   $('#accCoins').textContent=COINS.bal;
   $('#accVouchers').textContent=MYVOUCH.length;
   $('#accOrders').textContent=(LS('orders')||[]).length;
-  const today=dayKey(new Date()),done=COINS.last===today;
-  $('#streakLbl').textContent='streak: day '+(COINS.streak||0)+' of 7';
-  $('#checkinRow').innerHTML=[...Array(7)].map((_,i)=>{
-    const got=i<COINS.streak;
-    return `<div class="${got?'got':''} ${i===COINS.streak-(done?1:0)&&!got?'today':''}"><b>+${i===6?15:5}</b>Day ${i+1}</div>`;
-  }).join('');
-  $('#checkinBtn').disabled=done;
-  $('#checkinBtn').textContent=done?'✓ Checked in — see you tomorrow':'Check in today · +'+(COINS.streak===6&&COINS.last===dayKey(new Date(Date.now()-864e5))?15:5)+' coins';
+  // trade panel replaces the check-in gamification for trade accounts
+  const host=$('#checkinRow'), btn=$('#checkinBtn'), lbl=$('#streakLbl');
+  const tradeBox=$('#tradeBox');
+  if(ACCT){
+    if(lbl)lbl.textContent='';
+    host.innerHTML='';
+    btn.style.display='none';
+    tradeBox.hidden=false;
+    const badge=ACCT.status==='approved'?`<span class="pill" style="background:#E2F5EC;color:#0B6E4F">✓ ${esc(ACCT.tierName)} pricing</span>`
+      :ACCT.status==='pending'?'<span class="pill" style="background:#FDF3D7;color:#8A6400">⏳ Pending approval</span>'
+      :'<span class="pill" style="background:#FBE5E8;color:#B01E30">Rejected — contact the store</span>';
+    tradeBox.innerHTML=`
+      <div style="background:#fff;border-radius:13px;padding:14px;box-shadow:var(--shadow)">
+        <b style="font-family:var(--disp);font-size:15px">${esc(ACCT.biz||'')}</b> ${badge}
+        <div class="note" style="margin-top:6px">${esc(ACCT.name||'')} · ${esc(ACCT.phone||'')}${ACCT.code?' · code <b class="mono">'+esc(ACCT.code)+'</b>':''}</div>
+        ${ACCT.status==='approved'?`<div class="note" style="margin-top:4px">You are paying <b>${esc(ACCT.tierName)}</b> price${acctOff()?' ('+acctOff()+'% off list)':''}${tierMin()>1?' · minimum '+tierMin()+' sacks per order':''}.</div>`
+          :ACCT.status==='pending'?'<div class="note" style="margin-top:4px">The store is reviewing your details. Trade prices switch on automatically once approved.</div>':''}
+        <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+          <button class="btn sm ghost" onclick="manageAddresses()">Delivery addresses (${(ACCT.addresses||[]).length})</button>
+          <button class="btn sm ghost" onclick="syncAccount().then(renderAcct)">↻ Refresh status</button>
+          <button class="btn sm ghost" style="color:var(--coral)" onclick="logoutAcct()">Log out</button>
+        </div>
+      </div>`;
+  }else{
+    tradeBox.hidden=false;
+    btn.style.display='none';
+    if(lbl)lbl.textContent='';
+    host.innerHTML='';
+    tradeBox.innerHTML=`
+      <div style="background:linear-gradient(135deg,var(--navy),#12345E);color:#fff;border-radius:14px;padding:16px">
+        <b style="font-family:var(--disp);font-size:16px">Sell rice for a living?</b>
+        <div style="font-size:12.5px;opacity:.92;margin:6px 0 12px;line-height:1.5">Register your store or distributorship to unlock wholesale pricing, higher volume breaks, and delivery to your registered address.</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn mango" style="flex:1" onclick="openRegister()">Register</button>
+          <button class="btn ghost" style="flex:1;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.3);color:#fff" onclick="openLogin()">Log in</button>
+        </div>
+      </div>`;
+  }
   renderRecent();
 }
+window.manageAddresses=()=>{
+  const A=ACCT.addresses||[];
+  sheet(`<h3>Delivery addresses</h3>
+    <p class="note" style="margin-top:2px">Orders ship to one of your registered addresses — the store already knows where you are.</p>
+    ${A.map((a,i)=>`<div class="cline" style="align-items:flex-start"><div class="g">
+      <b>${esc(a.label||'Address '+(i+1))} ${a.primary?'<span class="pill" style="background:#EAF7F8;color:var(--cyan-deep)">primary</span>':''}</b>
+      <div style="font-size:12px;color:var(--ink-2);margin-top:2px">${esc(a.addr||'')}${a.area?', '+esc(a.area):''}</div></div>
+      <button class="btn sm ghost" onclick="delAddr(${i})">✕</button></div>`).join('')||'<div class="note">No addresses yet.</div>'}
+    <label>Label</label><input id="adLabel" placeholder="e.g. Main store, Warehouse">
+    <label>Address</label><textarea id="adAddr" rows="2"></textarea>
+    <label>Barangay / area</label><select id="adArea">${SHOP.areas.map(a=>`<option>${a}</option>`).join('')}</select>
+    <button class="btn mango" style="margin-top:12px" onclick="addAddr()">Add address</button>`);
+};
+window.addAddr=()=>{
+  const addr=$('#adAddr').value.trim(); if(!addr)return toast('Enter the address');
+  ACCT.addresses=ACCT.addresses||[];
+  ACCT.addresses.push({label:$('#adLabel').value.trim()||'Address',area:$('#adArea').value,addr,primary:!ACCT.addresses.length});
+  LS('acct',ACCT); if(SHOP.api_url){api({action:'shop_account_update',payload:{phone:ACCT.phone,code:ACCT.code,addresses:ACCT.addresses}},true).catch(()=>{});}
+  manageAddresses();
+};
+window.delAddr=i=>{
+  ACCT.addresses.splice(i,1);
+  if(ACCT.addresses.length&&!ACCT.addresses.some(a=>a.primary))ACCT.addresses[0].primary=true;
+  LS('acct',ACCT); manageAddresses();
+};
 window.editProfile=()=>{
   sheet(`<h3>My profile</h3>
     <label>Full name</label><input id="pfName" value="${esc(CK.name||'')}">
@@ -930,12 +1375,22 @@ window.aboutSheet=()=>{
 function steps(n){return`<div class="steps"><span class="${n>=1?'on':''}">1 · DETAILS</span><span class="${n>=2?'on':''}">2 · PAYMENT</span><span class="${n>=3?'on':''}">3 · DONE</span></div>`}
 window.openCheckout=()=>{
   if(!selLines().length)return toast('Select at least one item');
+  if(isTrade()&&cartSacks()<tierMin())return toast('Minimum '+tierMin()+' sacks per order for '+ACCT.tierName+' — you have '+cartSacks());
   const t=cartTotals();
-  sheet(`<h3>Checkout</h3>${steps(1)}
-    <label>Full name</label><input id="ckName" value="${esc(CK.name||'')}" placeholder="Juan dela Cruz">
-    <label>Mobile number</label><input id="ckPhone" inputmode="tel" value="${esc(CK.phone||'')}" placeholder="09xx xxx xxxx">
-    <label>Barangay / area</label><select id="ckArea">${SHOP.areas.map(a=>`<option ${CK.area===a?'selected':''}>${a}</option>`).join('')}</select>
-    <label>Street address / landmark</label><textarea id="ckAddr" rows="2" placeholder="House no., street, landmark">${esc(CK.addr||'')}</textarea>
+  const A=(ACCT&&ACCT.addresses)||[];
+  const regBlock=isTrade()&&A.length?`
+    <label>Deliver to (registered address)</label>
+    <select id="ckReg" onchange="ckPickAddr()">${A.map((a,i)=>`<option value="${i}">${esc(a.label||'Address')} — ${esc(a.addr||'')}${a.area?', '+esc(a.area):''}</option>`).join('')}<option value="new">+ Other address</option></select>`:'';
+  const showManual=!(isTrade()&&A.length);
+  sheet(`<h3>Checkout${isTrade()?' · '+esc(ACCT.tierName):''}</h3>${steps(1)}
+    ${isTrade()?`<div class="note" style="margin-top:0;color:var(--cyan-deep)">Ordering as <b>${esc(ACCT.biz)}</b> at ${esc(ACCT.tierName)} price.</div>`:''}
+    ${regBlock}
+    <div id="ckManual" ${showManual?'':'hidden'}>
+    <label>${isTrade()?'Business / contact name':'Full name'}</label><input id="ckName" value="${esc(isTrade()?(ACCT.biz||ACCT.name):(CK.name||''))}" placeholder="Juan dela Cruz">
+    <label>Mobile number</label><input id="ckPhone" inputmode="tel" value="${esc(isTrade()?ACCT.phone:(CK.phone||''))}" placeholder="09xx xxx xxxx">
+    <label>Barangay / area</label><select id="ckArea">${SHOP.areas.map(a=>`<option ${(isTrade()&&A[0]?A[0].area:CK.area)===a?'selected':''}>${a}</option>`).join('')}</select>
+    <label>Street address / landmark</label><textarea id="ckAddr" rows="2" placeholder="House no., street, landmark">${esc(isTrade()&&A[0]?A[0].addr:(CK.addr||''))}</textarea>
+    </div>
     <label>Delivery option</label>
     <div class="varrow">
       <button class="${SHIPMODE==='standard'?'on':''}" onclick="SHIPMODE='standard';openCheckout()">Standard · ${t.sub>=SHOP.free_over?'FREE':Pk(SHOP.delivery_fee)}</button>
@@ -945,7 +1400,16 @@ window.openCheckout=()=>{
     <div class="tot grand" style="margin-top:16px"><span>Total to pay</span><span>${P(t.total)}</span></div>
     <button class="btn mango" style="margin-top:12px" onclick="ckNext()">Choose payment →</button>`);
 };
+window.ckPickAddr=()=>{
+  const v=$('#ckReg').value;
+  $('#ckManual').hidden=(v!=='new');
+};
 window.ckNext=()=>{
+  if(isTrade()&&$('#ckReg')&&$('#ckReg').value!=='new'){
+    const a=ACCT.addresses[+$('#ckReg').value];
+    Object.assign(CK,{name:ACCT.biz||ACCT.name,phone:ACCT.phone,area:a.area,addr:a.addr,note:'',reg:true});
+    LS('cust',CK);return openPayment();
+  }
   const name=$('#ckName').value.trim(),phone=$('#ckPhone').value.trim();
   if(name.length<2)return toast('Pakisulat ang pangalan');
   if(!/^0?9\d{9}$|^\+?63\s?9\d{9}$/.test(phone.replace(/[\s-]/g,'')))return toast('Check the mobile number (09xx…)');
@@ -1009,6 +1473,8 @@ window.placeOrder=async()=>{
   }
   const lines=selLines();
   const order={
+    account_id:ACCT?ACCT.id:'', account_phone:ACCT?ACCT.phone:'', tier:acctTier(), tier_name:isTrade()?ACCT.tierName:'Retail',
+    biz:ACCT?ACCT.biz:'', channel:isTrade()?(ACCT.type==='distributor'?'Distributor':ACCT.type==='institution'?'Institutional':'Wholesale'):'Online',
     order_no:'NS-'+new Date().toISOString().slice(2,10).replace(/-/g,'')+'-'+uid().slice(-4),
     ts:new Date().toISOString(),
     name:CK.name,phone:CK.phone,area:CK.area,address:CK.addr,note:CK.note,
@@ -1166,8 +1632,9 @@ if('serviceWorker'in navigator){
 }
 
 (async()=>{
-  await Promise.all([loadCatalog(),loadAds(),loadVouchers(),loadReviews()]);
-  renderAds();renderFlash();renderQuick();renderSortbar();renderGrid();badges();
+  await Promise.all([loadCatalog(),loadAds(),loadVouchers(),loadReviews(),loadTiers(),loadQna(),loadBroadcasts()]);
+  await syncAccount();
+  renderAds();renderFlash();renderQuick();renderSortbar();renderGrid();badges();renderHero();paintBell();renderTicker();
   flushPending();
 })();
 </script>
