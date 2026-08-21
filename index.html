@@ -414,7 +414,7 @@ const SHOP = {
   // BACKEND = NEXRICE. Paste NEXRICE's Apps Script /exec URL and the SHOP_KEY
   // from its Config sheet. The key can only read catalog/ads/vouchers and
   // place, track, cancel or review orders — no admin access whatsoever.
-  api_url: 'https://script.google.com/macros/s/AKfycbweBSc1Qj0xS5cKn-jjtzfYXDkFP7JF5DvxejAXikCQfTL4naSV7X3BZU4E2nNpKRDT/exec', shop_key: 'NX-SHOP12011234523SDFG',
+  api_url: '', shop_key: '',
   currency: '₱', delivery_fee: 49, sameday_fee: 99, free_over: 1500,
   areas: ['Buru-un','Poblacion','Tibanga','Pala-o','Ma. Cristina','Suarez','Tubod','Other (Iligan)'],
   gcash: {name:'NEXRICE Store', number:'0905 251 5051'},
@@ -674,13 +674,30 @@ async function loadCatalog(){
   if(SHOP.api_url){
     try{
       const j=await api({action:'shop_catalog'});
-      if(j.ok&&j.products){
-        CAT=j.products.map(p=>({...p,image_url:p.image_url||p.img||'',price:+p.price,stock:+p.stock,
-          sold:+(p.sold||0),kg:+(p.kg||0)||'',sale_pct:+(p.sale_pct||0),rating:+(p.rating||0)||4.6,
-          ratings:+(p.ratings||0),vgroup:p.vgroup||'',gallery:Array.isArray(p.gallery)?p.gallery.filter(Boolean):[]}));
-        LIVE=true;return}
-    }catch(e){}
-    toast('Store link unreachable — showing sample catalog');
+      if(j&&j.ok&&Array.isArray(j.products)){
+        LIVE=true;
+        if(j.products.length){
+          CAT=j.products.map(p=>({...p,image_url:p.image_url||p.img||'',price:+p.price,stock:+p.stock,
+            sold:+(p.sold||0),kg:+(p.kg||0)||'',sale_pct:+(p.sale_pct||0),rating:+(p.rating||0)||4.6,
+            ratings:+(p.ratings||0),vgroup:p.vgroup||'',gallery:Array.isArray(p.gallery)?p.gallery.filter(Boolean):[]}));
+        }else{
+          // Connected fine, but the store has no products yet. Show the
+          // samples so the page isn't blank, but don't claim it's offline.
+          CAT=DEMO;
+          toast('Connected — no products in the store yet. Add them in NEXRICE.');
+        }
+        return;
+      }
+      // The call returned, but not the shape we expect — surface the real
+      // reason (bad key, unknown action from a stale deployment, etc.)
+      // instead of a misleading "unreachable".
+      console.warn('NEXSHOP: catalog response was not usable:', j);
+      toast(j&&j.error ? 'Store said: '+j.error+' — showing sample catalog'
+                       : 'Store sent an unexpected reply — showing sample catalog');
+    }catch(e){
+      console.warn('NEXSHOP: catalog request failed:', e);
+      toast('Store link unreachable — showing sample catalog');
+    }
   }
   CAT=DEMO;
 }
