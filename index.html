@@ -176,6 +176,15 @@ h1,h2,h3{font-family:var(--disp)}
 /* product detail */
 #pd .big{border-radius:14px;overflow:hidden;aspect-ratio:16/10;display:grid;place-items:center;position:relative}
 #pd .big img{width:100%;height:100%;object-fit:cover}
+#pd .pdhero{position:relative}
+#pd .big.gal{aspect-ratio:auto;display:block}
+#pd .galtrack{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;border-radius:14px}
+#pd .galtrack::-webkit-scrollbar{display:none}
+#pd .galslide{flex:0 0 100%;scroll-snap-align:center;aspect-ratio:16/10}
+#pd .galslide img{width:100%;height:100%;object-fit:cover;display:block}
+#pd .galdots{position:absolute;left:0;right:0;bottom:10px;display:flex;justify-content:center;gap:6px;pointer-events:none}
+#pd .galdots span{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.55);transition:background .15s,transform .15s}
+#pd .galdots span.on{background:var(--mango,#FFB703);transform:scale(1.3)}
 #pd .prow{display:flex;align-items:baseline;gap:10px;margin:12px 0 2px;flex-wrap:wrap}
 #pd .prow .p{font-family:var(--disp);font-weight:700;font-size:27px;color:#C2273B}
 #pd .prow .was{font-size:13px;color:var(--ink-3);text-decoration:line-through}
@@ -405,7 +414,7 @@ const SHOP = {
   // BACKEND = NEXRICE. Paste NEXRICE's Apps Script /exec URL and the SHOP_KEY
   // from its Config sheet. The key can only read catalog/ads/vouchers and
   // place, track, cancel or review orders — no admin access whatsoever.
-  api_url: 'https://script.google.com/macros/s/AKfycbweBSc1Qj0xS5cKn-jjtzfYXDkFP7JF5DvxejAXikCQfTL4naSV7X3BZU4E2nNpKRDT/exec', shop_key: 'NX-2026WSCD234FGHH',
+  api_url: '', shop_key: '',
   currency: '₱', delivery_fee: 49, sameday_fee: 99, free_over: 1500,
   areas: ['Buru-un','Poblacion','Tibanga','Pala-o','Ma. Cristina','Suarez','Tubod','Other (Iligan)'],
   gcash: {name:'NEXRICE Store', number:'0905 251 5051'},
@@ -433,7 +442,7 @@ const uid=()=>Date.now().toString(36).toUpperCase()+Math.random().toString(36).s
 const LS=(k,v)=>v===undefined?JSON.parse(localStorage.getItem('nexshop.'+k)||'null'):localStorage.setItem('nexshop.'+k,JSON.stringify(v));
 function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(t._x);t._x=setTimeout(()=>t.classList.remove('on'),2400)}
 function sheet(html){$('#sheetBody').innerHTML=html;$('#veil').classList.add('on')}
-function closeSheet(){$('#veil').classList.remove('on')}
+function closeSheet(){$('#veil').classList.remove('on');deliveryPollStop()}
 $('#veil').addEventListener('click',e=>{if(e.target.id==='veil')closeSheet()});
 
 /* ── banig placeholder art ── */
@@ -452,6 +461,23 @@ function banig(cat,name,size){
   return c.toDataURL();
 }
 const imgFor=(p,size)=>p.image_url?`<img src="${esc(p.image_url)}" alt="${esc(p.name)}" loading="lazy">`:`<img src="${banig(p.category,p.name,size)}" alt="${esc(p.name)}">`;
+/* Product-detail hero: a single photo behaves exactly as before; 2+ photos
+   (cover + gallery) become a swipeable, snap-scrolling strip with dots. */
+function galleryHero(p,size){
+  const photos=[p.image_url,...(p.gallery||[])].filter(Boolean);
+  if(photos.length<2) return `<div class="big">${imgFor(p,size)}</div>`;
+  return `<div class="big gal">
+    <div class="galtrack" id="galTrack" onscroll="galDotSync()">
+      ${photos.map(u=>`<div class="galslide"><img src="${esc(u)}" alt="${esc(p.name)}" loading="lazy"></div>`).join('')}
+    </div>
+    <div class="galdots" id="galDots">${photos.map((_,i)=>`<span class="${i===0?'on':''}"></span>`).join('')}</div>
+  </div>`;
+}
+window.galDotSync=()=>{
+  const t=document.getElementById('galTrack'); if(!t)return;
+  const i=Math.round(t.scrollLeft/t.clientWidth);
+  document.querySelectorAll('#galDots span').forEach((d,n)=>d.classList.toggle('on',n===i));
+};
 const stars=r=>{const f=Math.round(r||0);return '★'.repeat(f)+'☆'.repeat(5-f)};
 
 /* ── Demo catalog: sale flags, ratings, variants ── */
@@ -651,7 +677,7 @@ async function loadCatalog(){
       if(j.ok&&j.products){
         CAT=j.products.map(p=>({...p,image_url:p.image_url||p.img||'',price:+p.price,stock:+p.stock,
           sold:+(p.sold||0),kg:+(p.kg||0)||'',sale_pct:+(p.sale_pct||0),rating:+(p.rating||0)||4.6,
-          ratings:+(p.ratings||0),vgroup:p.vgroup||''}));
+          ratings:+(p.ratings||0),vgroup:p.vgroup||'',gallery:Array.isArray(p.gallery)?p.gallery.filter(Boolean):[]}));
         LIVE=true;return}
     }catch(e){}
     toast('Store link unreachable — showing sample catalog');
@@ -1050,7 +1076,7 @@ function drawPD(p){
   const sim=sortList(CAT.filter(x=>x.category===p.category&&x.id!==p.id)).slice(0,6);
   const w=WISH.includes(p.id),pr=tprice(p,PDQ||1);
   sheet(`<div id="pd">
-    <div class="big">${imgFor(p,420)}
+    <div class="pdhero">${galleryHero(p,420)}
       <span class="heart ${w?'on':''}" style="bottom:10px;right:10px;width:36px;height:36px;font-size:18px" onclick="toggleWish('${p.id}');drawPDKeep('${p.id}')">${w?'♥':'♡'}</span></div>
     <h3 style="margin-top:14px">${esc(p.name)}</h3>
     <div class="stars" style="font-size:12px">${stars(p.rating)} <span style="color:var(--ink-2);letter-spacing:0">${(p.rating||0).toFixed(1)} · ${p.ratings||revs.length} rating${(p.ratings||revs.length)===1?'':'s'} · ${(p.sold||0).toLocaleString()} sold</span></div>
@@ -1528,6 +1554,103 @@ function orderDone(o,payUrl,earned){
 
 /* ════════ ORDERS ════════ */
 const FLOW=[['placed','Order placed'],['confirmed','Confirmed by store'],['preparing','Preparing your items'],['out','Out for delivery'],['delivered','Delivered']];
+
+/* ── Live delivery map (customer side) ──────────────────────────────
+   Custom canvas map, same house style as NEXRICE's fleet-tracking map —
+   reliable and offline-safe rather than depending on an external map
+   embed. A one-tap "Open in Google Maps" link is offered alongside it
+   for a real street map.                                              */
+const AREA_COORDS = {
+  'Buru-un':[8.150,124.190], 'Poblacion':[8.228,124.245], 'Tibanga':[8.245,124.238],
+  'Pala-o':[8.235,124.240], 'Ma. Cristina':[8.180,124.210], 'Suarez':[8.223,124.240],
+  'Tubod':[8.150,124.240], 'Other (Iligan)':[8.228,124.245]
+};
+const STORE_LOC = [8.1961, 124.2043];   // Main Warehouse — Buru-un
+function hav(a,b){ const R=6371,dLat=(b[0]-a[0])/57.29578,dLon=(b[1]-a[1])/57.29578;
+  const s=Math.sin(dLat/2)**2+Math.cos(a[0]/57.29578)*Math.cos(b[0]/57.29578)*Math.sin(dLon/2)**2;
+  return 2*R*Math.asin(Math.sqrt(s)); }
+let DELIV_POLL=null;
+function deliveryMapHtml(o){
+  if(o.status!=='out')return '';
+  const dest=AREA_COORDS[o.area]||AREA_COORDS['Other (Iligan)'];
+  const agent=o.agent;
+  return `<div class="sechead" style="margin-top:14px"><h2 style="font-size:14px">🛵 Your delivery, live</h2></div>
+    <div style="background:#0B1F3A;border-radius:13px;padding:10px;box-shadow:var(--shadow)">
+      <canvas id="delivMap" style="width:100%;height:180px;display:block;border-radius:9px"></canvas>
+      <div id="delivMeta" style="margin-top:8px;color:#CBD9EC;font-size:11.5px;line-height:1.6"></div>
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn sm ghost" style="flex:1;background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:#fff" onclick="deliveryOpenMaps('${o.order_no}')">📍 Open in Google Maps</button>
+      </div>
+    </div>`;
+}
+function deliveryOpenMaps(no){
+  const hist=LS('orders')||[]; const o=hist.find(x=>x.order_no===no)||window._trackedOrder;
+  if(!o)return;
+  const dest=AREA_COORDS[o.area]||AREA_COORDS['Other (Iligan)'];
+  const p = (o.agent&&o.agent.lat)?[o.agent.lat,o.agent.lon]:dest;
+  window.open(`https://www.google.com/maps?q=${p[0]},${p[1]}`,'_blank');
+}
+function drawDeliveryMap(o){
+  const cv=document.getElementById('delivMap'); if(!cv)return;
+  const w=cv.clientWidth||320,h=180;
+  cv.width=w*devicePixelRatio; cv.height=h*devicePixelRatio;
+  const x=cv.getContext('2d'); x.scale(devicePixelRatio,devicePixelRatio);
+  x.fillStyle='#0A1730'; x.fillRect(0,0,w,h);
+  const dest=AREA_COORDS[o.area]||AREA_COORDS['Other (Iligan)'];
+  const agent=o.agent&&o.agent.lat?[o.agent.lat,o.agent.lon]:null;
+  const pts=[STORE_LOC,dest].concat(agent?[agent]:[]);
+  const pad=0.01;
+  const la0=Math.min(...pts.map(p=>p[0]))-pad, la1=Math.max(...pts.map(p=>p[0]))+pad;
+  const lo0=Math.min(...pts.map(p=>p[1]))-pad, lo1=Math.max(...pts.map(p=>p[1]))+pad;
+  const px=p=>[(p[1]-lo0)/(lo1-lo0)*(w-30)+15, h-15-((p[0]-la0)/(la1-la0)*(h-30))];
+  x.strokeStyle='rgba(255,255,255,.06)'; x.lineWidth=1;
+  for(let i=1;i<5;i++){x.beginPath();x.moveTo(w/5*i,0);x.lineTo(w/5*i,h);x.stroke();
+    x.beginPath();x.moveTo(0,h/5*i);x.lineTo(w,h/5*i);x.stroke();}
+  // route: store -> agent (if live) -> destination, dashed
+  const rp=[STORE_LOC].concat(agent?[agent]:[]).concat([dest]).map(px);
+  x.strokeStyle='rgba(0,194,209,.55)'; x.lineWidth=2; x.setLineDash([5,4]);
+  x.beginPath(); rp.forEach((p,i)=>i?x.lineTo(p[0],p[1]):x.moveTo(p[0],p[1])); x.stroke(); x.setLineDash([]);
+  // store marker
+  const [sx,sy]=px(STORE_LOC);
+  x.fillStyle='#FFB703'; x.beginPath(); x.arc(sx,sy,5,0,7); x.fill();
+  x.fillStyle='#CBD9EC'; x.font='600 9px Inter'; x.textAlign='center'; x.fillText('Store',sx,sy-9);
+  // destination marker (pin-ish)
+  const [dx,dy]=px(dest);
+  x.fillStyle='#E5484D'; x.beginPath(); x.arc(dx,dy,5,0,7); x.fill();
+  x.fillStyle='#CBD9EC'; x.fillText('You',dx,dy-9);
+  // agent marker
+  if(agent){
+    const [ax,ay]=px(agent);
+    x.fillStyle='#00C2D1'; x.beginPath(); x.arc(ax,ay,6.5,0,7); x.fill();
+    x.strokeStyle='#0A1730'; x.lineWidth=2; x.stroke();
+    x.globalAlpha=.35; x.beginPath(); x.arc(ax,ay,12,0,7); x.strokeStyle='#00C2D1'; x.stroke(); x.globalAlpha=1;
+    x.fillStyle='#fff'; x.font='700 9px Inter'; x.fillText('🛵',ax,ay-11);
+  }
+  const meta=document.getElementById('delivMeta');
+  if(meta){
+    if(agent){
+      const remain=hav(agent,dest).toFixed(1);
+      const etaMin=Math.max(2,Math.round(hav(agent,dest)/18*60));
+      const age=agent.ts?Math.max(0,Math.round((Date.now()-new Date(agent.ts).getTime())/60000)):null;
+      meta.innerHTML=`<b style="color:#fff">${esc(o.agent.name||'Your rider')}</b> is on the way — about <b style="color:#FFD60A">${remain} km</b> out, ETA <b style="color:#FFD60A">~${etaMin} min</b>.
+        ${age!=null?`<br><span style="opacity:.7">Position updated ${age<1?'just now':age+' min ago'}</span>`:''}`;
+    } else {
+      meta.innerHTML=`<b style="color:#fff">${esc((o.agent&&o.agent.name)||'Your rider')}</b> is assigned to your order — the live map appears once they start sharing their location.`;
+    }
+  }
+}
+function deliveryPollStart(no,ph){
+  deliveryPollStop();
+  DELIV_POLL=setInterval(async()=>{
+    if(!document.getElementById('veil').classList.contains('on')||!document.getElementById('delivMap')){deliveryPollStop();return;}
+    if(!SHOP.api_url)return;
+    try{const j=await api({action:'shop_track',order:no,phone:ph||''});
+      if(j.ok&&j.order){window._trackedOrder=j.order; drawDeliveryMap(j.order);
+        if(j.order.status!=='out')trackOrder(no,ph); }}catch(e){}
+  },20000);
+}
+function deliveryPollStop(){ if(DELIV_POLL){clearInterval(DELIV_POLL);DELIV_POLL=null;} }
+
 function renderOrders(){
   const hist=LS('orders')||[];
   $('#orderList').innerHTML=hist.length?hist.map(o=>`
@@ -1580,12 +1703,14 @@ window.trackSheet=()=>{
     <button class="btn navy" style="margin-top:14px" onclick="trackOrder($('#tkNo').value.trim(),$('#tkPh').value.trim())">Find my order</button>`);
 };
 window.trackOrder=async(no,ph)=>{
+  deliveryPollStop();
   let o=null;
   if(SHOP.api_url){
     try{const j=await api({action:'shop_track',order:no,phone:ph||CK.phone||''});if(j.ok)o=j.order}catch(e){}
   }
   if(!o){o=(LS('orders')||[]).find(x=>x.order_no===no);
     if(!o)return toast('Order not found — check the number');}
+  window._trackedOrder=o;
   if(o.status==='cancelled')return sheet(`<h3>${esc(no)}</h3><p class="note" style="margin-top:6px">This order was cancelled.</p><button class="btn mango" style="margin-top:12px" onclick="closeSheet()">Close</button>`);
   const idx=Math.max(0,FLOW.findIndex(f=>f[0]===(o.status||'placed')));
   sheet(`<h3>${esc(o.order_no)}</h3>
@@ -1593,7 +1718,9 @@ window.trackOrder=async(no,ph)=>{
     <div class="tl">${FLOW.map((f,i)=>`
       <div class="ev ${i<idx?'done':i===idx?'now':''}"><b>${f[1]}</b><small>${i<idx?'done':i===idx?'current status':'pending'}</small></div>`).join('')}</div>
     ${o.status==='delivered'?'<p class="note">Delivered — salamat sa pagtangkilik! 🙏</p>':`<p class="note">Deliver to ${esc(o.area||'')}. The store will text ${esc(o.phone||'you')} with updates.</p>`}
+    ${deliveryMapHtml(o)}
     <button class="btn mango" style="margin-top:10px" onclick="closeSheet()">Close</button>`);
+  if(o.status==='out'){ drawDeliveryMap(o); deliveryPollStart(no,ph); }
 };
 
 /* ════════ CATEGORY LIST VIEW ════════ */
@@ -1620,7 +1747,7 @@ async function flushPending(){
 }
 addEventListener('online',flushPending);
 
-const MANIFEST={name:'NEXSHOP — Online Tindahan',short_name:'NEXSHOP',start_url:'.',display:'standalone',background_color:'#F6F4EF',theme_color:'#0B1F3A',
+const MANIFEST={name:'NEXSHOP — Online Tindahan',short_name:'NEXSHOP',start_url:location.href.split('#')[0],display:'standalone',background_color:'#F6F4EF',theme_color:'#0B1F3A',
   icons:[{src:'data:image/svg+xml;base64,'+btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" fill="#0B1F3A"/><path d="M96 24l60 34v68l-60 34-60-34V58z" fill="none" stroke="#00C2D1" stroke-width="9"/><path d="M96 72c14 7 21 16 21 28s-9 21-21 28c-12-7-21-16-21-28s7-21 21-28z" fill="#FFB703"/></svg>'),sizes:'192x192',type:'image/svg+xml'}]};
 const ml=document.createElement('link');ml.rel='manifest';
 ml.href=URL.createObjectURL(new Blob([JSON.stringify(MANIFEST)],{type:'application/json'}));
