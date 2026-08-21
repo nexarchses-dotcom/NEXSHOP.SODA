@@ -388,6 +388,7 @@ footer b{color:var(--cyan)}
       <button class="mrow" onclick="setView('orders')"><div class="mi">📦</div><div><b>My orders</b><small>Track, cancel, buy again, review</small></div><span class="go">›</span></button>
       <button class="mrow" onclick="chatStore()"><div class="mi">💬</div><div><b>Chat with the store</b><small>Questions about stock, delivery, wholesale</small></div><span class="go">›</span></button>
       <button class="mrow" onclick="trackSheet()"><div class="mi">🔎</div><div><b>Track any order</b><small>By order number and phone</small></div><span class="go">›</span></button>
+      <button class="mrow" onclick="riderRegister()"><div class="mi">🛵</div><div><b>Deliver for us</b><small>Sign up as a delivery rider</small></div><span class="go">›</span></button>
       <button class="mrow" onclick="aboutSheet()"><div class="mi">ℹ️</div><div><b>About NEXSHOP</b><small>Payments, delivery areas, data</small></div><span class="go">›</span></button>
     </div>
   </div>
@@ -596,6 +597,52 @@ window.submitRegister = async () => {
     <div style="text-align:center;margin:8px 0"><span class="mono" style="font-size:30px;font-weight:700;letter-spacing:6px;color:var(--navy,#0B1F3A)">${esc(acct.code)}</span></div>
     <p class="note"><b>Write this down.</b> You'll need it to log in on another device. Forgot it later? On the login screen, tap <b>Forgot your code</b> and we'll look it up by your number — no SMS needed.</p>`:''}
     <button class="btn navy" style="margin-top:12px" onclick="closeSheet();setView('home')">Start browsing</button>`);
+};
+
+/* ── delivery rider registration (storefront) ──
+   Drivers can sign up to deliver right from NEXSHOP. They land in the same
+   DeliveryAgents sheet as the in-app rider portal and are approved by staff
+   in NEXRICE → Distribute → Agents. Uses the storefront SHOP_KEY. */
+window.riderRegister = () => {
+  sheet(`<h3>Deliver for us 🛵</h3>
+    <p class="note" style="margin-top:2px">Sign up as a delivery rider for the store. Once approved, you'll get a code to log in and see deliveries assigned to you.</p>
+    <label>Full name</label><input id="rdName" placeholder="Juan dela Cruz">
+    <label>Mobile number</label><input id="rdPhone" inputmode="tel" placeholder="09xx xxx xxxx">
+    <label>Vehicle</label>
+    <div class="varrow" id="rdVeh">
+      ${['Motorcycle','Tricycle','E-bike','Car','Van'].map((v,i)=>`<button class="${i===0?'on':''}" data-v="${v}">${v}</button>`).join('')}
+    </div>
+    <label>Plate number (optional)</label><input id="rdPlate" placeholder="e.g. ABC 1234">
+    <label>Areas you can cover</label>
+    <div class="varrow" id="rdAreas" style="flex-wrap:wrap">${SHOP.areas.map(a=>`<button data-a="${a}">${a}</button>`).join('')}</div>
+    <button class="btn mango" style="margin-top:14px" onclick="submitRider()">Submit for approval</button>`);
+  $$('#rdVeh button').forEach(b=>b.onclick=()=>{$$('#rdVeh button').forEach(x=>x.classList.remove('on'));b.classList.add('on');});
+  $$('#rdAreas button').forEach(b=>b.onclick=()=>b.classList.toggle('on'));
+};
+window.submitRider = async () => {
+  const name=$('#rdName').value.trim(), phone=$('#rdPhone').value.trim();
+  if(name.length<2) return toast('Enter your full name');
+  if(!/^0?9\d{9}$/.test(phone.replace(/[\s-]/g,''))) return toast('Check the mobile number (09xx…)');
+  const veh=($('#rdVeh button.on')||{}).dataset ? $('#rdVeh button.on').dataset.v : 'Motorcycle';
+  const areas=$$('#rdAreas button.on').map(b=>b.dataset.a);
+  const payload={name, phone, vehicle:veh, plate:$('#rdPlate').value.trim(), areas};
+  if(!SHOP.api_url) return toast('Connect to the store to register.');
+  try{
+    const j=await api({action:'agent_register', payload}, true);
+    if(!j.ok) return toast(j.error || 'Could not register — try again.');
+    if(j.duplicate){
+      return sheet(`<h3>You're already registered ✓</h3>
+        <p class="note" style="margin-top:4px">This number is already signed up as a rider (status: <b>${esc(j.status||'pending')}</b>).</p>
+        ${j.code?`<p class="note">Your rider code:</p><div style="text-align:center;margin:8px 0"><span class="mono" style="font-size:28px;font-weight:700;letter-spacing:5px;color:var(--navy,#0B1F3A)">${esc(j.code)}</span></div>`:''}
+        <button class="btn navy" style="margin-top:12px" onclick="closeSheet()">Close</button>`);
+    }
+    sheet(`<h3>Rider registration received 🎉</h3>
+      <p class="note" style="margin-top:4px">Salamat, ${esc(name.split(' ')[0])}! You're <b>pending approval</b>. The store will review and approve you shortly.</p>
+      ${j.code?`<p class="note" style="margin-top:8px">Your rider code:</p>
+      <div style="text-align:center;margin:8px 0"><span class="mono" style="font-size:28px;font-weight:700;letter-spacing:5px;color:var(--navy,#0B1F3A)">${esc(j.code)}</span></div>
+      <p class="note"><b>Write this down</b> — you'll use it with your mobile number to log in and see your deliveries once approved.</p>`:''}
+      <button class="btn navy" style="margin-top:12px" onclick="closeSheet()">Close</button>`);
+  }catch(e){ toast('Could not reach the store — try again later.'); }
 };
 
 /* ── login (phone + code) ── */
