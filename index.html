@@ -415,7 +415,7 @@ const SHOP = {
   // BACKEND = NEXRICE. Paste NEXRICE's Apps Script /exec URL and the SHOP_KEY
   // from its Config sheet. The key can only read catalog/ads/vouchers and
   // place, track, cancel or review orders — no admin access whatsoever.
-  api_url: 'https://script.google.com/macros/s/AKfycbweBSc1Qj0xS5cKn-jjtzfYXDkFP7JF5DvxejAXikCQfTL4naSV7X3BZU4E2nNpKRDT/exec', shop_key: 'NX-SHOP2026resitch5555',
+  api_url: '', shop_key: '',
   currency: '₱', delivery_fee: 49, sameday_fee: 99, free_over: 1500,
   areas: ['Buru-un','Poblacion','Tibanga','Pala-o','Ma. Cristina','Suarez','Tubod','Other (Iligan)'],
   gcash: {name:'NEXRICE Store', number:'0905 251 5051'},
@@ -591,9 +591,10 @@ window.submitRegister = async () => {
   ACCT = acct; LS('acct', ACCT);
   closeSheet(); badges(); renderAcct(); renderGrid();
   sheet(`<h3>Registration received 🎉</h3>
-    <p class="note" style="margin-top:4px">Salamat, ${esc(name.split(' ')[0]||biz)}! Your trade account is <b>pending approval</b>.
-    ${acct.code?`Your account code is <b class="mono">${esc(acct.code)}</b> — keep it to log in on another device.`:''}
-    The store will review your details and set your wholesale tier. You can browse now; trade prices appear once approved.</p>
+    <p class="note" style="margin-top:4px">Salamat, ${esc(name.split(' ')[0]||biz)}! Your trade account is <b>pending approval</b>. The store will review your details and set your wholesale tier.</p>
+    ${acct.code?`<p class="note" style="margin-top:8px">Your login code:</p>
+    <div style="text-align:center;margin:8px 0"><span class="mono" style="font-size:30px;font-weight:700;letter-spacing:6px;color:var(--navy,#0B1F3A)">${esc(acct.code)}</span></div>
+    <p class="note"><b>Write this down.</b> You'll need it to log in on another device. Forgot it later? On the login screen, tap <b>Forgot your code</b> and we'll look it up by your number — no SMS needed.</p>`:''}
     <button class="btn navy" style="margin-top:12px" onclick="closeSheet();setView('home')">Start browsing</button>`);
 };
 
@@ -601,9 +602,28 @@ window.submitRegister = async () => {
 window.openLogin = () => {
   sheet(`<h3>Log in to your trade account</h3>
     <label>Mobile number</label><input id="lgPhone" inputmode="tel" value="${esc(ACCT?ACCT.phone:'')}" placeholder="09xx xxx xxxx">
-    <label>Account code</label><input id="lgCode" class="mono" placeholder="From your approval SMS">
+    <label>Account code</label><input id="lgCode" class="mono" placeholder="6-digit code from registration">
     <button class="btn mango" style="margin-top:14px" onclick="submitLogin()">Log in</button>
+    <p class="note" style="margin-top:10px"><a href="#" onclick="recoverCode();return false" style="color:var(--cyan-deep);font-weight:600">Forgot your code?</a> — we'll look it up by your number.</p>
     <p class="note">New here? <a href="#" onclick="openRegister();return false" style="color:var(--cyan-deep);font-weight:600">Register a trade account</a></p>`);
+};
+window.recoverCode = async () => {
+  const phone = ($('#lgPhone')?$('#lgPhone').value.trim():'') || '';
+  if (!/^0?9\d{9}$/.test(phone.replace(/[\s-]/g,''))) return toast('Type your mobile number first, then tap Forgot your code.');
+  if (!SHOP.api_url) return toast('Connect to the store to look up your code.');
+  try{
+    // phone-only lookup (no code) — the store returns this account's own code
+    const j = await api({action:'shop_account', phone});
+    if (!j.ok || !j.account) return toast('No trade account found for that number. Register first?');
+    const a = j.account;
+    // prefill the code so they can log straight in, and show it so they can save it
+    if ($('#lgCode')) $('#lgCode').value = a.code || '';
+    sheet(`<h3>Your account code</h3>
+      <p class="note" style="margin-top:4px">Account for <b>${esc(a.biz||phone)}</b>:</p>
+      <div style="text-align:center;margin:14px 0"><span class="mono" style="font-size:30px;font-weight:700;letter-spacing:6px;color:var(--navy,#0B1F3A)">${esc(a.code||'——')}</span></div>
+      <p class="note">Status: <b>${a.status==='approved'?'approved':'pending approval'}</b>${a.status==='approved'&&a.tier?' · '+(TIERLABEL[a.tier]||a.tier)+' pricing':''}. Write this code down — you'll need it to log in on any device.</p>
+      <button class="btn mango" style="margin-top:12px" onclick="openLogin()">Back to log in</button>`);
+  }catch(e){ toast('Could not reach the store — try again later.'); }
 };
 window.submitLogin = async () => {
   const phone = $('#lgPhone').value.trim(), code = $('#lgCode').value.trim();
