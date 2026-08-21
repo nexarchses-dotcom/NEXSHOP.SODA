@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0B1F3A">
 <meta name="author" content="Developed by NEXARCH, Powered by CYRABELL">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTIiIGZpbGw9IiMwQjFGM0EiLz48cGF0aCBkPSJNMzIgMTBsMTkgMTF2MjJMMzIgNTQgMTMgNDNWMjF6IiBmaWxsPSJub25lIiBzdHJva2U9IiMwMEMyRDEiIHN0cm9rZS13aWR0aD0iMy41Ii8+PHBhdGggZD0iTTMyIDI0YzUgMyA3LjUgNiA3LjUgMTBTMzcgNDEgMzIgNDRjLTUtMy03LjUtNi03LjUtMTBzMi41LTcgNy41LTEweiIgZmlsbD0iI0ZGQjcwMyIvPjwvc3ZnPg==">
 <title>NEXSHOP · Online Tindahan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -414,7 +415,7 @@ const SHOP = {
   // BACKEND = NEXRICE. Paste NEXRICE's Apps Script /exec URL and the SHOP_KEY
   // from its Config sheet. The key can only read catalog/ads/vouchers and
   // place, track, cancel or review orders — no admin access whatsoever.
-  api_url: 'https://script.google.com/macros/s/AKfycbweBSc1Qj0xS5cKn-jjtzfYXDkFP7JF5DvxejAXikCQfTL4naSV7X3BZU4E2nNpKRDT/exec', shop_key: 'NX-SHOP2026resitch5555',
+  api_url: '', shop_key: '',
   currency: '₱', delivery_fee: 49, sameday_fee: 99, free_over: 1500,
   areas: ['Buru-un','Poblacion','Tibanga','Pala-o','Ma. Cristina','Suarez','Tubod','Other (Iligan)'],
   gcash: {name:'NEXRICE Store', number:'0905 251 5051'},
@@ -691,7 +692,9 @@ async function loadCatalog(){
       // The call returned, but not the shape we expect — surface the real
       // reason (bad key, unknown action from a stale deployment, etc.)
       // instead of a misleading "unreachable".
-      console.warn('NEXSHOP: catalog response was not usable:', j);
+      console.warn('NEXSHOP: catalog response was not usable. ok='+(j&&j.ok)+
+        ' error='+(j&&j.error)+' hasProducts='+(j&&Array.isArray(j.products))+
+        ' rawKeys='+(j?Object.keys(j).join(','):'(no object)'));
       toast(j&&j.error ? 'Store said: '+j.error+' — showing sample catalog'
                        : 'Store sent an unexpected reply — showing sample catalog');
     }catch(e){
